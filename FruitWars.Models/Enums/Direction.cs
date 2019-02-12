@@ -1,4 +1,4 @@
-﻿namespace FruitWars.Models
+﻿namespace FruitWars.Core.Models.Enums
 {
     public enum Direction
     {

@@ -1,6 +1,5 @@
 ﻿using FruitWars.Contracts;
-using FruitWars.Models;
-using FruitWars.Models.Contracts;
+using FruitWars.Core.Models;
 using System.Collections.Generic;
 using System.Text;
 

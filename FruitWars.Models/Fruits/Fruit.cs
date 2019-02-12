@@ -1,6 +1,6 @@
-﻿using FruitWars.Models.Warriors;
+﻿using FruitWars.Core.Models.Warriors;
 
-namespace FruitWars.Models.Fruits
+namespace FruitWars.Core.Models.Fruits
 {
     public abstract class Fruit : BoardObject
     {

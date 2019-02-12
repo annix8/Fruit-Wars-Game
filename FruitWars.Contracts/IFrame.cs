@@ -1,4 +1,4 @@
-﻿namespace FruitWars.Models.Contracts
+﻿namespace FruitWars.Contracts
 {
     public interface IFrame
     {

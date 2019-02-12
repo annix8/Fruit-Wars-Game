@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IFrame.cs" />
     <Compile Include="IFrameCreator.cs" />
     <Compile Include="IO\IInputReceiver.cs" />
     <Compile Include="IO\IRenderer.cs" />
@@ -53,9 +54,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FruitWars.Models\FruitWars.Models.csproj">
+    <ProjectReference Include="..\FruitWars.Models\FruitWars.Core.Models.csproj">
       <Project>{C8FF4CFD-BF4D-47CF-967D-66E4A571D6C8}</Project>
-      <Name>FruitWars.Models</Name>
+      <Name>FruitWars.Core.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

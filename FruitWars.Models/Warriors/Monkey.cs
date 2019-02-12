@@ -1,4 +1,4 @@
-﻿namespace FruitWars.Models.Warriors
+﻿namespace FruitWars.Core.Models.Warriors
 {
     public class Monkey : Warrior
     {

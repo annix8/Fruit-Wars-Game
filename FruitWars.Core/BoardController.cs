@@ -1,6 +1,7 @@
-﻿using FruitWars.Models;
-using FruitWars.Models.Fruits;
-using FruitWars.Models.Warriors;
+﻿using FruitWars.Core.Models;
+using FruitWars.Core.Models.Enums;
+using FruitWars.Core.Models.Fruits;
+using FruitWars.Core.Models.Warriors;
 using System;
 using System.Collections.Generic;
 

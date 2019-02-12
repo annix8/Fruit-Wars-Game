@@ -1,6 +1,5 @@
-﻿using FruitWars.Contracts.IO;
-using FruitWars.Models;
-using FruitWars.Models.Contracts;
+﻿using FruitWars.Contracts;
+using FruitWars.Contracts.IO;
 using System;
 
 namespace FruitWars.IO

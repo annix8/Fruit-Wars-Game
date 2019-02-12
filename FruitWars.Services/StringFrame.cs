@@ -1,6 +1,6 @@
-﻿using FruitWars.Models.Contracts;
+﻿using FruitWars.Contracts;
 
-namespace FruitWars.Models
+namespace FruitWars.Services
 {
     public class StringFrame : IFrame
     {

@@ -1,6 +1,6 @@
-﻿using FruitWars.Models.Warriors;
+﻿using FruitWars.Core.Models.Warriors;
 
-namespace FruitWars.Models
+namespace FruitWars.Core.Models
 {
     public class Player
     {

@@ -1,9 +1,8 @@
 ﻿using FruitWars.Contracts;
 using FruitWars.Contracts.IO;
 using FruitWars.Core.Factory;
-using FruitWars.Models;
-using FruitWars.Models.Contracts;
-using FruitWars.Models.Warriors;
+using FruitWars.Core.Models;
+using FruitWars.Core.Models.Warriors;
 using System.Collections.Generic;
 
 namespace FruitWars.Core

@@ -1,6 +1,4 @@
-﻿using FruitWars.Models.Contracts;
-
-namespace FruitWars.Contracts.IO
+﻿namespace FruitWars.Contracts.IO
 {
     public interface IRenderer
     {

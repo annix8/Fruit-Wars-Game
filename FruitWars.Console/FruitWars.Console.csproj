@@ -64,9 +64,9 @@
       <Project>{057733BE-2C8B-4EDB-A976-2EF2027EF615}</Project>
       <Name>FruitWars.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FruitWars.Models\FruitWars.Models.csproj">
+    <ProjectReference Include="..\FruitWars.Models\FruitWars.Core.Models.csproj">
       <Project>{C8FF4CFD-BF4D-47CF-967D-66E4A571D6C8}</Project>
-      <Name>FruitWars.Models</Name>
+      <Name>FruitWars.Core.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

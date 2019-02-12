@@ -1,4 +1,4 @@
-﻿using FruitWars.Models.Warriors;
+﻿using FruitWars.Core.Models.Warriors;
 using System;
 using System.Collections.Generic;
 

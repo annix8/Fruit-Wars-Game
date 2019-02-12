@@ -1,8 +1,6 @@
-﻿using FruitWars.Models.Contracts;
-
-namespace FruitWars.Models
+﻿namespace FruitWars.Core.Models
 {
-    public class Board : IBoard
+    public class Board
     {
         private readonly BoardObject[,] _boardObjects;
 

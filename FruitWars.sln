@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FruitWars.Console", "FruitW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FruitWars.Contracts", "FruitWars.Contracts\FruitWars.Contracts.csproj", "{7AB640A8-4F53-4D6D-A195-39045BBA111E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FruitWars.Models", "FruitWars.Models\FruitWars.Models.csproj", "{C8FF4CFD-BF4D-47CF-967D-66E4A571D6C8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FruitWars.Core.Models", "FruitWars.Models\FruitWars.Core.Models.csproj", "{C8FF4CFD-BF4D-47CF-967D-66E4A571D6C8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FruitWars.Core", "FruitWars.Core\FruitWars.Core.csproj", "{057733BE-2C8B-4EDB-A976-2EF2027EF615}"
 EndProject
