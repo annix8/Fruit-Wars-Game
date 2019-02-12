@@ -3,7 +3,7 @@ using FruitWars.Models.Fruits;
 using FruitWars.Models.Warriors;
 using System;
 
-namespace NETFramework.TestConsoleApp
+namespace FruitWars.Core
 {
     public class BoardController
     {

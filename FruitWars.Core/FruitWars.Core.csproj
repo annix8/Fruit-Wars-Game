@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{391EF056-0D39-4149-B620-6FAD875F5D99}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>FruitWars</RootNamespace>
-    <AssemblyName>FruitWars</AssemblyName>
+    <ProjectGuid>{057733BE-2C8B-4EDB-A976-2EF2027EF615}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FruitWars.Core</RootNamespace>
+    <AssemblyName>FruitWars.Core</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -46,28 +44,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IO\ConsoleInputReceiver.cs" />
-    <Compile Include="IO\ConsoleRenderer.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="BoardController.cs" />
+    <Compile Include="Factory\WarriorFactory.cs" />
+    <Compile Include="GameController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FruitWars.Contracts\FruitWars.Contracts.csproj">
       <Project>{7AB640A8-4F53-4D6D-A195-39045BBA111E}</Project>
       <Name>FruitWars.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FruitWars.Core\FruitWars.Core.csproj">
-      <Project>{057733BE-2C8B-4EDB-A976-2EF2027EF615}</Project>
-      <Name>FruitWars.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FruitWars.Models\FruitWars.Models.csproj">
       <Project>{C8FF4CFD-BF4D-47CF-967D-66E4A571D6C8}</Project>
       <Name>FruitWars.Models</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

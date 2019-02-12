@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FruitWars.Contracts", "Frui
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FruitWars.Models", "FruitWars.Models\FruitWars.Models.csproj", "{C8FF4CFD-BF4D-47CF-967D-66E4A571D6C8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FruitWars.Core", "FruitWars.Core\FruitWars.Core.csproj", "{057733BE-2C8B-4EDB-A976-2EF2027EF615}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C8FF4CFD-BF4D-47CF-967D-66E4A571D6C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8FF4CFD-BF4D-47CF-967D-66E4A571D6C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8FF4CFD-BF4D-47CF-967D-66E4A571D6C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{057733BE-2C8B-4EDB-A976-2EF2027EF615}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{057733BE-2C8B-4EDB-A976-2EF2027EF615}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{057733BE-2C8B-4EDB-A976-2EF2027EF615}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{057733BE-2C8B-4EDB-A976-2EF2027EF615}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
