@@ -53,7 +53,7 @@ namespace FruitWars.Core
         private List<Player> CreatePlayers()
         {
             List<Player> players = new List<Player>();
-            for (int playerNumber = 0; playerNumber <= NumberOfPlayers; playerNumber++)
+            for (int playerNumber = 1; playerNumber <= NumberOfPlayers; playerNumber++)
             {
                 var player = new Player(playerNumber);
             }
