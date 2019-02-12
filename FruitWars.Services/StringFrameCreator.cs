@@ -1,11 +1,12 @@
-﻿using FruitWars.Models;
+﻿using FruitWars.Contracts;
+using FruitWars.Models;
 using FruitWars.Models.Contracts;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FruitWars.Core
+namespace FruitWars.Services
 {
-    public class FrameController
+    public class StringFrameCreator : IFrameCreator
     {
         // creates a frame based on the board's status
         public IFrame CreateFrame(Board board, List<Player> players)

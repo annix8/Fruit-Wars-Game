@@ -2,27 +2,27 @@
 using FruitWars.Models.Fruits;
 using FruitWars.Models.Warriors;
 using System;
+using System.Collections.Generic;
 
 namespace FruitWars.Core
 {
     public class BoardController
     {
-        private readonly Board _board;
         private readonly Random _random;
 
-        public BoardController(Board board)
+        public BoardController()
         {
-            _board = board;
+            InitializeBoard();
             _random = new Random();
         }
 
-        public Board Board => _board;
+        public Board Board { get; private set; }
 
-        public void InitializeBoard(params Player[] players)
+        public void AddPlayersWarriorsToBoard(List<Player> players)
         {
             foreach (var player in players)
             {
-
+                // randomly put the players' warriors on the board + fruits
             }
         }
 
@@ -30,26 +30,27 @@ namespace FruitWars.Core
         {
             int desiredRow = warriorCurrentRow + 1; // todo according to direction
             int desiredCol = warriorCurrentCol + 1; // todo according to direction
-            if ((desiredRow < 0 || desiredRow >= _board.Rows)
-                || (desiredCol < 0 || desiredCol >= _board.Cols))
+            if ((desiredRow < 0 || desiredRow >= Board.Rows)
+                || (desiredCol < 0 || desiredCol >= Board.Cols))
             {
                 // player is trying to move out of board so return his warrior's current position
                 return (warriorCurrentRow, warriorCurrentCol);
                 // maybe throw custom exception and catch it in caller?
             }
 
-            Warrior warrior = _board[warriorCurrentRow, warriorCurrentCol] as Warrior;
+            Warrior warrior = Board[warriorCurrentRow, warriorCurrentCol] as Warrior;
 
             if (warrior == null)
             {
-                throw new ArgumentException($"Row: {warriorCurrentRow}, Col: {warriorCurrentCol} is not a warrior but a {_board[warriorCurrentRow, warriorCurrentCol].GetType()}");
+                throw new ArgumentException($"Row: {warriorCurrentRow}, Col: {warriorCurrentCol} is not a warrior but a {Board[warriorCurrentRow, warriorCurrentCol].GetType()}");
             }
 
-            BoardObject boardObject = _board[desiredRow, desiredCol];
+            // todo think of a way not to use if else "pattern"
+            BoardObject boardObject = Board[desiredRow, desiredCol];
             if (boardObject is Fruit)
             {
                 warrior.EatFruit((Fruit)boardObject);
-                _board[desiredRow, desiredCol] = warrior;
+                Board[desiredRow, desiredCol] = warrior;
             }
             else if (boardObject is Warrior)
             {
@@ -57,12 +58,23 @@ namespace FruitWars.Core
             }
             else
             {
-                _board[desiredRow, desiredCol] = warrior;
+                Board[desiredRow, desiredCol] = warrior;
             }
 
-            _board[warriorCurrentRow, warriorCurrentCol] = null;
+            Board[warriorCurrentRow, warriorCurrentCol] = null;
 
             return (desiredRow, desiredCol);
+        }
+
+        private void InitializeBoard()
+        {
+            for (int i = 0; i < Board.Rows; i++)
+            {
+                for (int j = 0; j < Board.Cols; j++)
+                {
+                    Board[i, j] = new NullBoardObject();
+                }
+            }
         }
     }
 }

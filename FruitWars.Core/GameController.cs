@@ -1,6 +1,8 @@
-﻿using FruitWars.Contracts.IO;
+﻿using FruitWars.Contracts;
+using FruitWars.Contracts.IO;
 using FruitWars.Core.Factory;
 using FruitWars.Models;
+using FruitWars.Models.Contracts;
 using FruitWars.Models.Warriors;
 using System.Collections.Generic;
 
@@ -16,16 +18,19 @@ namespace FruitWars.Core
         private readonly IInputReceiver _inputReceiver;
         private readonly IRenderer _renderer;
         private readonly WarriorFactory _warriorFactory;
+        private readonly IFrameCreator _frameCreator;
 
         public GameController(BoardController boardController,
             IInputReceiver playerInputReceiver,
             IRenderer playerOutputSender,
-            WarriorFactory warriorFactory)
+            WarriorFactory warriorFactory,
+            IFrameCreator frameCreator)
         {
             _boardController = boardController;
             _inputReceiver = playerInputReceiver;
             _renderer = playerOutputSender;
             _warriorFactory = warriorFactory;
+            _frameCreator = frameCreator;
         }
 
         public void RunGameLoop()
@@ -41,13 +46,21 @@ namespace FruitWars.Core
                 // loop for a single game
                 while (true)
                 {
+                    // render game state
+                    IFrame frame = _frameCreator.CreateFrame(_boardController.Board, players);
+                    _renderer.RenderFrame(frame);
 
+                    // maybe somewhere here check for winner
+                    
+                    // ask for player input
+
+                    // update game state based on input
                     break;
                 }
 
                 playNewGame = AskForRematch();
             }
-            _boardController.InitializeBoard(null, null);
+            _boardController.AddPlayersWarriorsToBoard(players);
         }
 
         private List<Player> CreatePlayers()
