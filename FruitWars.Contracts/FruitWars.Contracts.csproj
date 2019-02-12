@@ -54,7 +54,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FruitWars.Models\FruitWars.Core.Models.csproj">
+    <ProjectReference Include="..\FruitWars.Core.Models\FruitWars.Core.Models.csproj">
       <Project>{C8FF4CFD-BF4D-47CF-967D-66E4A571D6C8}</Project>
       <Name>FruitWars.Core.Models</Name>
     </ProjectReference>

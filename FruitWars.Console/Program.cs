@@ -1,6 +1,6 @@
 ﻿using FruitWars.Core;
 
-namespace NETFramework.TestConsoleApp
+namespace FruitWars
 {
     public class Program
     {

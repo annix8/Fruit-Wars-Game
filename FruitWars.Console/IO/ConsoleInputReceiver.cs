@@ -1,7 +1,7 @@
 ﻿using FruitWars.Contracts.IO;
 using System;
 
-namespace NETFramework.TestConsoleApp.IO
+namespace FruitWars.IO
 {
     public class ConsolePlayerInputReceiver : IInputReceiver
     {

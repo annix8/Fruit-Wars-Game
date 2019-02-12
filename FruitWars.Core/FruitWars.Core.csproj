@@ -54,7 +54,7 @@
       <Project>{7AB640A8-4F53-4D6D-A195-39045BBA111E}</Project>
       <Name>FruitWars.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FruitWars.Models\FruitWars.Core.Models.csproj">
+    <ProjectReference Include="..\FruitWars.Core.Models\FruitWars.Core.Models.csproj">
       <Project>{C8FF4CFD-BF4D-47CF-967D-66E4A571D6C8}</Project>
       <Name>FruitWars.Core.Models</Name>
     </ProjectReference>
