@@ -7,20 +7,10 @@ namespace FruitWars.IO
 {
     public class ConsoleRenderer : IRenderer
     {
-        public void RenderBoard(IBoard board)
+        public void RenderFrame(IFrame frame)
         {
-            // todo make mapping of the board objects and their console char representations
-            BoardObject[,] boardField = board.GetBoardField();
-
-            // todo write real symbols for game objects
-            for (int i = 0; i < boardField.GetLength(0); i++)
-            {
-                for (int j = 0; j < boardField.GetLength(1); j++)
-                {
-                    Console.Write("-");
-                }
-                Console.WriteLine();
-            }
+            Console.Clear();
+            Console.WriteLine(frame.Content.ToString());
         }
 
         public void RenderMessage(string message)

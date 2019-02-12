@@ -1,6 +1,4 @@
 ﻿using FruitWars.Core;
-using FruitWars.IO;
-using FruitWars.Models;
 
 namespace NETFramework.TestConsoleApp
 {

@@ -47,7 +47,9 @@
     <Compile Include="Board.cs" />
     <Compile Include="BoardObject.cs" />
     <Compile Include="Contracts\IBoard.cs" />
+    <Compile Include="Contracts\IFrame.cs" />
     <Compile Include="Enums\Direction.cs" />
+    <Compile Include="StringFrame.cs" />
     <Compile Include="Fruits\Apple.cs" />
     <Compile Include="Fruits\Fruit.cs" />
     <Compile Include="Fruits\Pear.cs" />

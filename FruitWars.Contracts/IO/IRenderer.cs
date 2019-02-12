@@ -5,6 +5,6 @@ namespace FruitWars.Contracts.IO
     public interface IRenderer
     {
         void RenderMessage(string message);
-        void RenderBoard(IBoard board);
+        void RenderFrame(IFrame frame);
     }
 }

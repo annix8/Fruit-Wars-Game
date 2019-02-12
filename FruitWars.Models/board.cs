@@ -1,6 +1,4 @@
 ﻿using FruitWars.Models.Contracts;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace FruitWars.Models
 {
@@ -34,12 +32,6 @@ namespace FruitWars.Models
 
         public int Rows { get; private set; }
         public int Cols { get; private set; }
-
-        public BoardObject[,] GetBoardField()
-        {
-            // TODO think of a way to return readonly collection or a new reference so that they cannot be edited from the outside
-            return _boardObjects;
-        }
 
         private void InitializeBoardWithNullBoardObjects()
         {

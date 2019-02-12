@@ -16,6 +16,8 @@ namespace FruitWars.Core
             _random = new Random();
         }
 
+        public Board Board => _board;
+
         public void InitializeBoard(params Player[] players)
         {
             foreach (var player in players)

@@ -10,6 +10,7 @@ namespace FruitWars.Core
     {
         private const int NumberOfPlayers = 2;
         private const string ChooseWarriorMessage = "Player{0}, please choose a warrior.\nInsert 1 for turtle / 2 for monkey / 3 for pigeon";
+        private const string StartNewGameMessage = "Do you want to start a rematch? (y/n)";
 
         private readonly BoardController _boardController;
         private readonly IInputReceiver _inputReceiver;
@@ -34,16 +35,17 @@ namespace FruitWars.Core
 
             bool playNewGame = true;
 
-            // different games loop
+            // loop for the different games
             while (playNewGame)
             {
-                // single game loop
+                // loop for a single game
                 while (true)
                 {
 
+                    break;
                 }
 
-                playNewGame = false;
+                playNewGame = AskForRematch();
             }
             _boardController.InitializeBoard(null, null);
         }
@@ -69,6 +71,15 @@ namespace FruitWars.Core
                 Warrior warrior = _warriorFactory.Create(warriorType);
                 player.Warrior = warrior;
             }
+        }
+
+        private bool AskForRematch()
+        {
+            // todo handle different inputs
+            _renderer.RenderMessage(StartNewGameMessage);
+            string answer = _inputReceiver.ReceiveStringInput();
+
+            return answer.ToLower() == "y";
         }
     }
 }
