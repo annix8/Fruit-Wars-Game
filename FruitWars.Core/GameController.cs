@@ -39,16 +39,13 @@ namespace FruitWars.Core
 
         public void RunGameLoop()
         {
-            List<Player> players = CreatePlayers();
             bool playNewGame = true;
 
             // loop for the different games
             while (playNewGame)
             {
-                _gameStateController.CreateNewGameState();
-                _boardController.CreateNewBoard(GetWarriorTypesForPlayers(players));
-                _gameStateController.GameState.Players = players;
-                _gameStateController.AssignCurrentPlayer(1);
+                List<Player> players = CreatePlayers();
+                InitializeGame(players);
 
                 // loop for a single game
                 while (true)
@@ -59,35 +56,40 @@ namespace FruitWars.Core
                     {
                         break;
                     }
-                    
-                    foreach (var player in players)
-                    {
-                        if (_gameStateController.GameState.GameFinished)
-                        {
-                            break;
-                        }
 
-                        _gameStateController.AssignCurrentPlayer(player.Number);
-                        Render();
-
-                        int numberOfMoves = player.Warrior.Speed;
-                        while (numberOfMoves > 0)
-                        {
-                            // todo handle invalid input
-                            Direction direction = _inputReceiver.ReceiveDirectionInput();
-                            _boardController.MovePlayerWarrior(player.Number, direction);
-                            if (_gameStateController.GameState.GameFinished)
-                            {
-                                break;
-                            }
-                            // if input is valid lower number of moves
-                            numberOfMoves--;
-                            Render();
-                        }
-                    }
+                    RunPlayerMoves(players);
                 }
 
                 playNewGame = AskForRematch();
+            }
+        }
+
+        private void RunPlayerMoves(List<Player> players)
+        {
+            foreach (var player in players)
+            {
+                if (_gameStateController.GameState.GameFinished)
+                {
+                    break;
+                }
+
+                _gameStateController.AssignCurrentPlayer(player.Number);
+                Render();
+
+                int numberOfMoves = player.Warrior.Speed;
+                while (numberOfMoves > 0)
+                {
+                    // todo handle invalid input
+                    Direction direction = _inputReceiver.ReceiveDirectionInput();
+                    _boardController.MovePlayerWarrior(player.Number, direction);
+                    if (_gameStateController.GameState.GameFinished)
+                    {
+                        break;
+                    }
+                    // if input is valid lower number of moves
+                    numberOfMoves--;
+                    Render();
+                }
             }
         }
 
@@ -101,6 +103,14 @@ namespace FruitWars.Core
             }
 
             return players;
+        }
+
+        private void InitializeGame(List<Player> players)
+        {
+            _gameStateController.CreateNewGameState();
+            _boardController.CreateNewBoard(GetWarriorTypesForPlayers(players));
+            _gameStateController.GameState.Players = players;
+            _gameStateController.AssignCurrentPlayer(1);
         }
 
         private Dictionary<int, Warrior> GetWarriorTypesForPlayers(List<Player> players)
