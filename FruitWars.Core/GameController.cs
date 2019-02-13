@@ -59,19 +59,27 @@ namespace FruitWars.Core
                     {
                         break;
                     }
-
-                    // ask for player input
+                    
                     foreach (var player in players)
                     {
+                        if (_gameStateController.GameState.GameFinished)
+                        {
+                            break;
+                        }
+
                         _gameStateController.AssignCurrentPlayer(player.Number);
                         Render();
 
                         int numberOfMoves = player.Warrior.Speed;
-                        while(numberOfMoves > 0)
+                        while (numberOfMoves > 0)
                         {
                             // todo handle invalid input
                             Direction direction = _inputReceiver.ReceiveDirectionInput();
                             _boardController.MovePlayerWarrior(player.Number, direction);
+                            if (_gameStateController.GameState.GameFinished)
+                            {
+                                break;
+                            }
                             // if input is valid lower number of moves
                             numberOfMoves--;
                             Render();

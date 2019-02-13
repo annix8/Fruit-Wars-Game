@@ -57,20 +57,18 @@ namespace FruitWars.Core
                 if (warrior.Power > otherWarrior.Power)
                 {
                     // player that made the move wins
-                    _gameStateController.EndGameWithWinner(playerNumber);
                     Board[desiredRow, desiredCol] = warrior;
+                    _gameStateController.EndGameWithWinner(playerNumber);
                 }
                 else if (warrior.Power < otherWarrior.Power)
                 {
                     // player that has warrior on desiredRow, desiredCol wins
                     int otherPlayerNumber = _gameStateController.GetPlayerNumberByWarriorPosition(desiredRow, desiredCol);
                     _gameStateController.EndGameWithWinner(otherPlayerNumber);
-                    return;
                 }
                 else
                 {
                     _gameStateController.EndGameWithDraw();
-                    return;
                 }
             }
             else
