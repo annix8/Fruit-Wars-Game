@@ -13,14 +13,10 @@ namespace FruitWars.Core
         private readonly GameStateController _gameStateController;
         private readonly Random _random;
 
-        private readonly Dictionary<int, (int, int)> _warriorPositionsByPlayerNumber;
-
         public BoardController(GameStateController gameStateController)
         {
             _gameStateController = gameStateController;
             _random = new Random();
-
-            _warriorPositionsByPlayerNumber = new Dictionary<int, (int, int)>();
         }
 
         public Board Board { get; private set; }
@@ -29,14 +25,13 @@ namespace FruitWars.Core
         {
             InitializeBoardWithNullBoardObjects();
             AddPlayerWarriorsToBoard(warriorTypesByPlayerNumber);
+            _gameStateController.GameState.Board = Board;
         }
 
         public void MovePlayerWarrior(int playerNumber, Direction direction)
         {
-            int warriorCurrentRow = _warriorPositionsByPlayerNumber[playerNumber].Item1;
-            int warriorCurrentCol = _warriorPositionsByPlayerNumber[playerNumber].Item2;
-            int desiredRow = warriorCurrentRow + 1; // todo according to direction
-            int desiredCol = warriorCurrentCol + 1; // todo according to direction
+            (int warriorCurrentRow, int warriorCurrentCol) = _gameStateController.GetWarriorPositionsByPlayerNumber(playerNumber);
+            (int desiredRow, int desiredCol) = GetNextPosition(warriorCurrentRow, warriorCurrentCol, direction);
             if ((desiredRow < 0 || desiredRow >= Board.Rows)
                 || (desiredCol < 0 || desiredCol >= Board.Cols))
             {
@@ -60,21 +55,23 @@ namespace FruitWars.Core
             }
             else if (boardObject is Warrior otherWarrior)
             {
-                if(warrior.Power > otherWarrior.Power)
+                if (warrior.Power > otherWarrior.Power)
                 {
                     // player that made the move wins
                     _gameStateController.EndGameWithWinner(playerNumber);
                     Board[desiredRow, desiredCol] = warrior;
                 }
-                else if(warrior.Power < otherWarrior.Power)
+                else if (warrior.Power < otherWarrior.Power)
                 {
                     // player that has warrior on desiredRow, desiredCol wins
-                    int otherPlayerNumber = _warriorPositionsByPlayerNumber.First(x => x.Value.Item1 == desiredRow && x.Value.Item2 == desiredCol).Key;
+                    int otherPlayerNumber = _gameStateController.GetPlayerNumberByWarriorPosition(desiredRow, desiredCol);
                     _gameStateController.EndGameWithWinner(otherPlayerNumber);
+                    return;
                 }
                 else
                 {
                     _gameStateController.EndGameWithDraw();
+                    return;
                 }
             }
             else
@@ -83,6 +80,7 @@ namespace FruitWars.Core
             }
 
             Board[warriorCurrentRow, warriorCurrentCol] = null;
+            _gameStateController.AssignWarriorPositionToPlayer(playerNumber, desiredRow, desiredCol);
         }
 
         private void InitializeBoardWithNullBoardObjects()
@@ -114,15 +112,32 @@ namespace FruitWars.Core
                     randomCol = _random.Next(0, Board.Cols);
 
                     // todo at least 3 positions away logic!
-                    if(!takenPositions.Contains((randomRow, randomCol)))
+                    if (!takenPositions.Contains((randomRow, randomCol)))
                     {
                         break;
                     }
                 }
 
-                _warriorPositionsByPlayerNumber[playerNumber] = (randomRow, randomCol);
+                _gameStateController.AssignWarriorPositionToPlayer(playerNumber, randomRow, randomCol);
                 Board[randomRow, randomCol] = warrior;
                 takenPositions.Add((randomRow, randomCol));
+            }
+        }
+
+        private (int, int) GetNextPosition(int currentRow, int currentCol, Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Up:
+                    return (currentRow - 1, currentCol);
+                case Direction.Down:
+                    return (currentRow + 1, currentCol);
+                case Direction.Left:
+                    return (currentRow, currentCol - 1);
+                case Direction.Right:
+                    return (currentRow, currentCol + 1);
+                default:
+                    throw new ArgumentException("No such direction");
             }
         }
     }

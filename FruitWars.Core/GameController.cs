@@ -45,18 +45,17 @@ namespace FruitWars.Core
             // loop for the different games
             while (playNewGame)
             {
-                Dictionary<int, Warrior> warriorTypesByPlayerNumber = GetWarriorTypesForPlayers(players);
-                _boardController.CreateNewBoard(warriorTypesByPlayerNumber);
-                _gameStateController.GameState = new GameState(_boardController.Board, players.ToDictionary(x => x.Number, x => x));
+                _gameStateController.CreateNewGameState();
+                _boardController.CreateNewBoard(GetWarriorTypesForPlayers(players));
+                _gameStateController.GameState.Players = players;
+                _gameStateController.AssignCurrentPlayer(1);
 
                 // loop for a single game
                 while (true)
                 {
-                    GameState gameState = _gameStateController.GetGameState();
-                    IFrame frame = _frameCreator.CreateFrame(gameState);
-                    _renderer.RenderFrame(frame);
+                    Render();
 
-                    if (gameState.GameFinished)
+                    if (_gameStateController.GameState.GameFinished)
                     {
                         break;
                     }
@@ -65,6 +64,8 @@ namespace FruitWars.Core
                     foreach (var player in players)
                     {
                         _gameStateController.AssignCurrentPlayer(player.Number);
+                        Render();
+
                         int numberOfMoves = player.Warrior.Speed;
                         while(numberOfMoves > 0)
                         {
@@ -73,6 +74,7 @@ namespace FruitWars.Core
                             _boardController.MovePlayerWarrior(player.Number, direction);
                             // if input is valid lower number of moves
                             numberOfMoves--;
+                            Render();
                         }
                     }
                 }
@@ -117,6 +119,13 @@ namespace FruitWars.Core
             string answer = _inputReceiver.ReceiveStringInput();
 
             return answer.ToLower() == "y";
+        }
+
+        private void Render()
+        {
+            GameState gameState = _gameStateController.GameState;
+            IFrame frame = _frameCreator.CreateFrame(gameState);
+            _renderer.RenderFrame(frame);
         }
     }
 }

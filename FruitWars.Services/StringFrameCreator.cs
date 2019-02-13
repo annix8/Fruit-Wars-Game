@@ -16,21 +16,26 @@ namespace FruitWars.Services
             var boardObjectMapper = new BoardObjectToSymbolMapper();
             var stringBuilder = new StringBuilder();
             Board board = gameState.Board;
-            List<Player> players = gameState.PlayersByPlayerNumber.Select(x => x.Value).ToList();
             
             for (int i = 0; i < board.Rows; i++)
             {
                 for (int j = 0; j < board.Cols; j++)
                 {
                     BoardObject boardObject = board[i, j];
-                    char symbol = boardObjectMapper.GetSymbol(boardObject);
+                    char symbol = boardObjectMapper.GetSymbol(boardObject, gameState.CurrentPlayerNumber);
                     stringBuilder.Append(symbol);
                 }
                 stringBuilder.AppendLine();
             }
 
-            string playersMessages = string.Join("\n", players);
+            string playersMessages = string.Join("\n", gameState.Players);
             stringBuilder.AppendLine(playersMessages);
+
+            if (!gameState.GameFinished)
+            {
+                stringBuilder.Append($"Player{gameState.CurrentPlayerNumber}, make a move please!");
+            }
+
             return new StringFrame(stringBuilder.ToString());
         }
     }

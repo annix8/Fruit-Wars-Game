@@ -1,33 +1,48 @@
 ﻿using FruitWars.Core.Models;
+using System.Linq;
 
 namespace FruitWars.Core
 {
     public class GameStateController
     {
-        private GameState _gameState;
+        public GameState GameState { get; private set; }
 
-        public GameState GameState { set => _gameState = value; }
+        public void CreateNewGameState()
+        {
+            GameState = new GameState();
+        }
 
         public void EndGameWithWinner(int winnerPlayerNumber)
         {
-            _gameState.GameFinished = true;
-            _gameState.WinnerPlayerNumber = winnerPlayerNumber;
+            GameState.GameFinished = true;
+            GameState.WinnerPlayerNumber = winnerPlayerNumber;
         }
 
         public void EndGameWithDraw()
         {
-            _gameState.GameFinished = true;
-            _gameState.WinnerPlayerNumber = -1;
+            GameState.GameFinished = true;
+            GameState.WinnerPlayerNumber = -1;
         }
 
         public void AssignCurrentPlayer(int playerNumber)
         {
-            _gameState.CurrentPlayerNumber = playerNumber;
+            GameState.CurrentPlayerNumber = playerNumber;
         }
 
-        public GameState GetGameState()
+        public void AssignWarriorPositionToPlayer(int playerNumber, int warriorRow, int warriorCol)
         {
-            return _gameState;
+            GameState.WarriorPositionsByPlayerNumber[playerNumber] = (warriorRow, warriorCol);
+        }
+
+        public (int, int) GetWarriorPositionsByPlayerNumber(int playerNumber)
+        {
+            return GameState.WarriorPositionsByPlayerNumber[playerNumber];
+        }
+
+        public int GetPlayerNumberByWarriorPosition(int warriorRow, int warriorCol)
+        {
+            return GameState.WarriorPositionsByPlayerNumber
+                .First(x => x.Value.Item1 == warriorRow && x.Value.Item2 == warriorCol).Key;
         }
     }
 }

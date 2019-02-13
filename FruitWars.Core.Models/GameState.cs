@@ -4,15 +4,15 @@ namespace FruitWars.Core.Models
 {
     public class GameState
     {
-        public GameState(Board board, Dictionary<int, Player> playersByPlayerNumber)
+        public GameState()
         {
-            Board = board;
-            PlayersByPlayerNumber = playersByPlayerNumber;
             GameFinished = false;
+            WarriorPositionsByPlayerNumber = new Dictionary<int, (int, int)>();
         }
 
         public Board Board { get; set; }
-        public Dictionary<int, Player> PlayersByPlayerNumber { get; set; }
+        public List<Player> Players { get; set; }
+        public Dictionary<int, (int, int)> WarriorPositionsByPlayerNumber { get; private set; }
         public bool GameFinished { get; set; }
         public int WinnerPlayerNumber { get; set; }
         public int CurrentPlayerNumber { get; set; }
