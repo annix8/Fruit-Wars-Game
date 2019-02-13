@@ -15,22 +15,22 @@ namespace FruitWars.Core
 
         private readonly BoardController _boardController;
         private readonly GameStateController _gameStateController;
+        private readonly WarriorFactory _warriorFactory;
         private readonly IInputReceiver _inputReceiver;
         private readonly IRenderer _renderer;
-        private readonly WarriorFactory _warriorFactory;
         private readonly IFrameCreator _frameCreator;
 
         public GameController(BoardController boardController,
             GameStateController gameStateController,
-            IInputReceiver playerInputReceiver,
-            IRenderer playerOutputSender,
             WarriorFactory warriorFactory,
+            IInputReceiver inputReceiver,
+            IRenderer renderer,
             IFrameCreator frameCreator)
         {
             _boardController = boardController;
             _gameStateController = gameStateController;
-            _inputReceiver = playerInputReceiver;
-            _renderer = playerOutputSender;
+            _inputReceiver = inputReceiver;
+            _renderer = renderer;
             _warriorFactory = warriorFactory;
             _frameCreator = frameCreator;
         }

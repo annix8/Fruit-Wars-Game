@@ -6,11 +6,7 @@ namespace FruitWars.Core
     {
         private GameState _gameState;
 
-        public GameStateController(GameState gameState)
-        {
-            _gameState = gameState;
-            _gameState.CurrentPlayerNumber = 1;
-        }
+        public GameState GameState { set => _gameState = value; }
 
         public void EndGameWithWinner(int winnerPlayerNumber)
         {

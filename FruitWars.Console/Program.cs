@@ -1,4 +1,8 @@
-﻿using FruitWars.Core;
+﻿using FruitWars.Contracts;
+using FruitWars.Contracts.IO;
+using FruitWars.Core;
+using FruitWars.IO;
+using FruitWars.Services;
 
 namespace FruitWars
 {
@@ -6,7 +10,10 @@ namespace FruitWars
     {
         static void Main(string[] args)
         {
-            new GameEngine().RunGame();
+            IInputReceiver inputReceiver = new ConsoleInputReceiver();
+            IRenderer renderer = new ConsoleRenderer();
+            IFrameCreator frameCreator = new StringFrameCreator();
+            new GameEngine(inputReceiver, renderer, frameCreator).RunGame();
         }
     }
 }

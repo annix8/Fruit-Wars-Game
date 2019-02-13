@@ -4,7 +4,7 @@ using System;
 
 namespace FruitWars.IO
 {
-    public class ConsolePlayerInputReceiver : IInputReceiver
+    public class ConsoleInputReceiver : IInputReceiver
     {
         public Direction ReceiveDirectionInput()
         {
