@@ -52,7 +52,7 @@ namespace FruitWars.Services
                 if (winner == null)
                 {
                     stringBuilder.Clear();
-                    stringBuilder.AppendLine("Draw game.");
+                    stringBuilder.Append("Draw game.");
                 }
                 else
                 {
