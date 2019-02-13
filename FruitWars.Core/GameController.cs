@@ -18,6 +18,7 @@ namespace FruitWars.Core
         private readonly BoardController _boardController;
         private readonly GameStateController _gameStateController;
         private readonly WarriorFactory _warriorFactory;
+        private readonly PlayerFactory _playerFactory;
         private readonly IInputReceiver _inputReceiver;
         private readonly IRenderer _renderer;
         private readonly IFrameCreator _frameCreator;
@@ -25,15 +26,17 @@ namespace FruitWars.Core
         public GameController(BoardController boardController,
             GameStateController gameStateController,
             WarriorFactory warriorFactory,
+            PlayerFactory playerFactory,
             IInputReceiver inputReceiver,
             IRenderer renderer,
             IFrameCreator frameCreator)
         {
             _boardController = boardController;
             _gameStateController = gameStateController;
+            _warriorFactory = warriorFactory;
+            _playerFactory = playerFactory;
             _inputReceiver = inputReceiver;
             _renderer = renderer;
-            _warriorFactory = warriorFactory;
             _frameCreator = frameCreator;
         }
 
@@ -44,23 +47,26 @@ namespace FruitWars.Core
             // loop for the different games
             while (playNewGame)
             {
-                List<Player> players = CreatePlayers();
-                InitializeGame(players);
+                List<Player> players = _playerFactory.Create(NumberOfPlayers);
+                CreateNewGame(players);
+                RunGame(players);
+                playNewGame = AskForRematch();
+            }
+        }
 
-                // loop for a single game
-                while (true)
+        private void RunGame(List<Player> players)
+        {
+            // loop for a single game
+            while (true)
+            {
+                Render();
+
+                if (_gameStateController.GameState.GameFinished)
                 {
-                    Render();
-
-                    if (_gameStateController.GameState.GameFinished)
-                    {
-                        break;
-                    }
-
-                    RunPlayerMoves(players);
+                    break;
                 }
 
-                playNewGame = AskForRematch();
+                RunPlayerMoves(players);
             }
         }
 
@@ -93,19 +99,7 @@ namespace FruitWars.Core
             }
         }
 
-        private List<Player> CreatePlayers()
-        {
-            List<Player> players = new List<Player>();
-            for (int playerNumber = 1; playerNumber <= NumberOfPlayers; playerNumber++)
-            {
-                var player = new Player(playerNumber);
-                players.Add(player);
-            }
-
-            return players;
-        }
-
-        private void InitializeGame(List<Player> players)
+        private void CreateNewGame(List<Player> players)
         {
             _gameStateController.CreateNewGameState();
             _boardController.CreateNewBoard(GetWarriorTypesForPlayers(players));
