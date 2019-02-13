@@ -4,18 +4,23 @@ using FruitWars.Core.Models.Fruits;
 using FruitWars.Core.Models.Warriors;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FruitWars.Core
 {
     public class BoardController
     {
-        private readonly Dictionary<int, (int, int)> _warriorPositionsByPlayerNumber;
+        private readonly GameStateController _gameStateController;
         private readonly Random _random;
 
-        public BoardController()
+        private readonly Dictionary<int, (int, int)> _warriorPositionsByPlayerNumber;
+
+        public BoardController(GameStateController gameStateController)
         {
-            _warriorPositionsByPlayerNumber = new Dictionary<int, (int, int)>();
+            _gameStateController = gameStateController;
             _random = new Random();
+
+            _warriorPositionsByPlayerNumber = new Dictionary<int, (int, int)>();
         }
 
         public Board Board { get; private set; }
@@ -52,9 +57,24 @@ namespace FruitWars.Core
                 warrior.EatFruit((Fruit)boardObject);
                 Board[desiredRow, desiredCol] = warrior;
             }
-            else if (boardObject is Warrior)
+            else if (boardObject is Warrior otherWarrior)
             {
-
+                if(warrior.Power > otherWarrior.Power)
+                {
+                    // player that made the move wins
+                    _gameStateController.EndGameWithWinner(playerNumber);
+                    Board[desiredRow, desiredCol] = warrior;
+                }
+                else if(warrior.Power < otherWarrior.Power)
+                {
+                    // player that has warrior on desiredRow, desiredCol wins
+                    int otherPlayerNumber = _warriorPositionsByPlayerNumber.First(x => x.Value.Item1 == desiredRow && x.Value.Item2 == desiredCol).Key;
+                    _gameStateController.EndGameWithWinner(otherPlayerNumber);
+                }
+                else
+                {
+                    _gameStateController.EndGameWithDraw();
+                }
             }
             else
             {
