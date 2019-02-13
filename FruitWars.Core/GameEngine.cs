@@ -21,6 +21,12 @@ namespace FruitWars.Core
 
         public void RunGame()
         {
+            GameController gameController = CreateGameController();
+            gameController.RunGameLoop();
+        }
+
+        private GameController CreateGameController()
+        {
             GameStateController gameStateController = new GameStateController();
             BoardController boardController = new BoardController(gameStateController);
             WarriorFactory warriorFactory = new WarriorFactory();
@@ -33,8 +39,7 @@ namespace FruitWars.Core
                 _inputReceiver,
                 _renderer,
                 _frameCreator);
-
-            gameController.RunGameLoop();
+            return gameController;
         }
     }
 }
