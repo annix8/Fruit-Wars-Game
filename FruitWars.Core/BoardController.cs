@@ -21,6 +21,15 @@ namespace FruitWars.Core
 
         public void AddPlayersWarriorsToBoard(List<Player> players)
         {
+            int upperQuadrant = _random.Next(0, Board.Rows / 2);
+            int lowerQuadrant = _random.Next(Board.Rows / 2, Board.Rows);
+            int[] quadrantRows = new int[] { upperQuadrant, lowerQuadrant };
+            int leftQuadrant = _random.Next(0, Board.Cols / 2);
+            int rightQuadrant = _random.Next(Board.Cols / 2, Board.Cols);
+            int[] quadrantCols = new int[] { leftQuadrant, rightQuadrant };
+            int row = quadrantRows[_random.Next(0, quadrantRows.Length)];
+            int col = quadrantCols[_random.Next(0, quadrantCols.Length)];
+
             foreach (var player in players)
             {
                 // randomly put the players' warriors on the board + fruits

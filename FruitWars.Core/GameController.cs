@@ -2,6 +2,7 @@
 using FruitWars.Contracts.IO;
 using FruitWars.Core.Factory;
 using FruitWars.Core.Models;
+using FruitWars.Core.Models.Enums;
 using FruitWars.Core.Models.Warriors;
 using System.Collections.Generic;
 
@@ -50,10 +51,16 @@ namespace FruitWars.Core
                     _renderer.RenderFrame(frame);
 
                     // maybe somewhere here check for winner
-                    
-                    // ask for player input
 
-                    // update game state based on input
+                    // ask for player input
+                    foreach (var player in players)
+                    {
+                        Direction direction = _inputReceiver.ReceiveDirectionInput();
+                        (int row, int col) = _boardController.MoveWarrior(player.WarriorRow, player.WarriorCol, direction);
+                        player.WarriorRow = row;
+                        player.WarriorCol = col;
+                    }
+
                     break;
                 }
 
