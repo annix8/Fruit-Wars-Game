@@ -20,8 +20,7 @@ namespace FruitWars.Core
 
         public Board Board { get; private set; }
 
-
-        public void InitializeNewBoard(Dictionary<int, int> warriorTypesByPlayerNumber)
+        public void CreateNewBoard(Dictionary<int, int> warriorTypesByPlayerNumber)
         {
             InitializeBoardWithNullBoardObjects();
             AddPlayerWarriorsToBoard(warriorTypesByPlayerNumber);
@@ -67,6 +66,7 @@ namespace FruitWars.Core
 
         private void InitializeBoardWithNullBoardObjects()
         {
+            Board = new Board();
             for (int i = 0; i < Board.Rows; i++)
             {
                 for (int j = 0; j < Board.Cols; j++)

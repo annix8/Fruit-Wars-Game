@@ -41,7 +41,7 @@ namespace FruitWars.Core
             while (playNewGame)
             {
                 Dictionary<int, int> warriorTypesByPlayerNumber = GetWarriorTypesForPlayers(players);
-                _boardController.InitializeNewBoard(warriorTypesByPlayerNumber);
+                _boardController.CreateNewBoard(warriorTypesByPlayerNumber);
 
                 // loop for a single game
                 while (true)
