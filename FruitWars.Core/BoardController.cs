@@ -29,6 +29,7 @@ namespace FruitWars.Core
 
         public void MovePlayerWarrior(int playerNumber, Direction direction)
         {
+            // todo fix logic that checks the winner
             (int warriorCurrentRow, int warriorCurrentCol) = _gameStateController.GetWarriorPositionsByPlayerNumber(playerNumber);
             (int desiredRow, int desiredCol) = GetNextPosition(warriorCurrentRow, warriorCurrentCol, direction);
             if ((desiredRow < 0 || desiredRow >= Board.Rows)

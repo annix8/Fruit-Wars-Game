@@ -54,6 +54,14 @@ namespace FruitWars.Core
             }
         }
 
+        private void CreateNewGame(List<Player> players)
+        {
+            _gameStateController.CreateNewGameState();
+            _boardController.CreateNewBoard(GetWarriorTypesForPlayers(players));
+            _gameStateController.GameState.Players = players;
+            _gameStateController.AssignCurrentPlayer(1);
+        }
+
         private void RunGame(List<Player> players)
         {
             // loop for a single game
@@ -97,14 +105,6 @@ namespace FruitWars.Core
                     Render();
                 }
             }
-        }
-
-        private void CreateNewGame(List<Player> players)
-        {
-            _gameStateController.CreateNewGameState();
-            _boardController.CreateNewBoard(GetWarriorTypesForPlayers(players));
-            _gameStateController.GameState.Players = players;
-            _gameStateController.AssignCurrentPlayer(1);
         }
 
         private Dictionary<int, Warrior> GetWarriorTypesForPlayers(List<Player> players)
