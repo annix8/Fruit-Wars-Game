@@ -1,4 +1,5 @@
 ﻿using FruitWars.Core.Models;
+using FruitWars.Core.Models.Fruits;
 using FruitWars.Core.Models.Warriors;
 using System;
 using System.Collections.Generic;
@@ -7,25 +8,26 @@ namespace FruitWars.Services
 {
     public class BoardObjectToSymbolMapper
     {
-        private Dictionary<BoardObject, Func<char>> _symbolsByBoardObject;
+        private Dictionary<Type, Func<string>> _symbolsByBoardObject;
 
         public BoardObjectToSymbolMapper()
         {
-           
+            _symbolsByBoardObject = new Dictionary<Type, Func<string>>
+            {
+                { typeof(NullBoardObject), () => "-" },
+                { typeof(Apple), () => "A" },
+                { typeof(Pear), () => "P" },
+            };
         }
 
-        public char GetSymbol(BoardObject boardObject, int playerNumber)
+        public string GetSymbol(BoardObject boardObject, int playerNumber)
         {
-            if(boardObject is NullBoardObject)
+            if (!_symbolsByBoardObject.ContainsKey(boardObject.GetType()))
             {
-                return '-';
-            }
-            else if(boardObject is Warrior)
-            {
-
+                throw new ArgumentException($"Board object not found.");
             }
 
-            return 'O';
+            return _symbolsByBoardObject[boardObject.GetType()].Invoke();
         }
     }
 }

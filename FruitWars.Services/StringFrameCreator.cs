@@ -1,6 +1,7 @@
 ﻿using FruitWars.Contracts;
 using FruitWars.Core.Models;
-using System.Collections.Generic;
+using FruitWars.Core.Models.Warriors;
+using System;
 using System.Linq;
 using System.Text;
 
@@ -10,19 +11,26 @@ namespace FruitWars.Services
     {
         public IFrame CreateFrame(GameState gameState)
         {
-            // todo make mapping of the board objects and their console char representations
-            // todo write real symbols for game objects
-            // todo if the game is finished, display winner
             var boardObjectMapper = new BoardObjectToSymbolMapper();
             var stringBuilder = new StringBuilder();
             Board board = gameState.Board;
-            
-            for (int i = 0; i < board.Rows; i++)
+
+            for (int row = 0; row < board.Rows; row++)
             {
-                for (int j = 0; j < board.Cols; j++)
+                for (int col = 0; col < board.Cols; col++)
                 {
-                    BoardObject boardObject = board[i, j];
-                    char symbol = boardObjectMapper.GetSymbol(boardObject, gameState.CurrentPlayerNumber);
+                    BoardObject boardObject = board[row, col];
+                    string symbol;
+                    if (boardObject is Warrior warrior)
+                    {
+                        symbol = gameState.WarriorPositionsByPlayerNumber
+                            .First(x => x.Value.Item1 == row && x.Value.Item2 == col).Key.ToString();
+                    }
+                    else
+                    {
+                        symbol = boardObjectMapper.GetSymbol(boardObject, gameState.CurrentPlayerNumber);
+                    }
+
                     stringBuilder.Append(symbol);
                 }
                 stringBuilder.AppendLine();
@@ -34,6 +42,10 @@ namespace FruitWars.Services
             if (!gameState.GameFinished)
             {
                 stringBuilder.Append($"Player{gameState.CurrentPlayerNumber}, make a move please!");
+            }
+            else
+            {
+                // todo if the game is finished, display winner
             }
 
             return new StringFrame(stringBuilder.ToString());
