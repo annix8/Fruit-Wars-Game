@@ -24,10 +24,12 @@ namespace FruitWars.Core
             GameStateController gameStateController = new GameStateController();
             BoardController boardController = new BoardController(gameStateController);
             WarriorFactory warriorFactory = new WarriorFactory();
+            PlayerFactory playerFactory = new PlayerFactory();
             GameController gameController = new GameController(
                 boardController,
                 gameStateController,
                 warriorFactory,
+                playerFactory,
                 _inputReceiver,
                 _renderer,
                 _frameCreator);

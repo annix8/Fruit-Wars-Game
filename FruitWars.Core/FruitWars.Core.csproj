@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoardController.cs" />
+    <Compile Include="Factory\PlayerFactory.cs" />
     <Compile Include="Factory\WarriorFactory.cs" />
     <Compile Include="GameController.cs" />
     <Compile Include="GameEngine.cs" />

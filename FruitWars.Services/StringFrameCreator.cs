@@ -1,7 +1,6 @@
 ﻿using FruitWars.Contracts;
 using FruitWars.Core.Models;
 using FruitWars.Core.Models.Warriors;
-using System;
 using System.Linq;
 using System.Text;
 
@@ -9,6 +8,7 @@ namespace FruitWars.Services
 {
     public class StringFrameCreator : IFrameCreator
     {
+        // todo magic strings should be at least constants
         public IFrame CreateFrame(GameState gameState)
         {
             var boardObjectMapper = new BoardObjectToSymbolMapper();
@@ -51,7 +51,8 @@ namespace FruitWars.Services
                 // game should be draw
                 if (winner == null)
                 {
-
+                    stringBuilder.Clear();
+                    stringBuilder.AppendLine("Draw game.");
                 }
                 else
                 {
