@@ -14,11 +14,13 @@ namespace FruitWars.Core
         public void EndGameWithWinner(int winnerPlayerNumber)
         {
             _gameState.GameFinished = true;
+            _gameState.WinnerPlayerNumber = winnerPlayerNumber;
         }
 
         public void EndGameWithDraw()
         {
             _gameState.GameFinished = true;
+            _gameState.WinnerPlayerNumber = -1;
         }
 
         public GameState GetGameState()

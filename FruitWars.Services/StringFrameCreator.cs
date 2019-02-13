@@ -1,19 +1,23 @@
 ﻿using FruitWars.Contracts;
 using FruitWars.Core.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace FruitWars.Services
 {
     public class StringFrameCreator : IFrameCreator
     {
-        // creates a frame based on the board's status
-        public IFrame CreateFrame(Board board, List<Player> players)
+        // creates a frame based on the game state
+        public IFrame CreateFrame(GameState gameState)
         {
             // todo make mapping of the board objects and their console char representations
-            var stringBuilder = new StringBuilder();
-
             // todo write real symbols for game objects
+            // todo if the game is finished, display winner
+            var stringBuilder = new StringBuilder();
+            Board board = gameState.Board;
+            List<Player> players = gameState.PlayersByPlayerNumber.Select(x => x.Value).ToList();
+            
             for (int i = 0; i < board.Rows; i++)
             {
                 for (int j = 0; j < board.Cols; j++)

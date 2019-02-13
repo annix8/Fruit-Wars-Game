@@ -46,11 +46,14 @@ namespace FruitWars.Core
                 // loop for a single game
                 while (true)
                 {
-                    // render game state
-                    IFrame frame = _frameCreator.CreateFrame(_boardController.Board, players);
+                    GameState gameState = _boardController.GetGameState();
+                    IFrame frame = _frameCreator.CreateFrame(gameState);
                     _renderer.RenderFrame(frame);
 
-                    // maybe somewhere here check for winner
+                    if (gameState.GameFinished)
+                    {
+                        break;
+                    }
 
                     // ask for player input
                     foreach (var player in players)
@@ -58,8 +61,6 @@ namespace FruitWars.Core
                         Direction direction = _inputReceiver.ReceiveDirectionInput();
                         _boardController.MovePlayerWarrior(player.Number, direction);
                     }
-
-                    break;
                 }
 
                 playNewGame = AskForRematch();

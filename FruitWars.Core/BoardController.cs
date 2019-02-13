@@ -84,6 +84,11 @@ namespace FruitWars.Core
             Board[warriorCurrentRow, warriorCurrentCol] = null;
         }
 
+        public GameState GetGameState()
+        {
+            return _gameStateController.GetGameState();
+        }
+
         private void InitializeBoardWithNullBoardObjects()
         {
             Board = new Board();
