@@ -8,7 +8,8 @@ namespace FruitWars.Core
 
         public GameStateController(GameState gameState)
         {
-            _gameState = gameState;   
+            _gameState = gameState;
+            _gameState.CurrentPlayerNumber = 1;
         }
 
         public void EndGameWithWinner(int winnerPlayerNumber)
@@ -21,6 +22,11 @@ namespace FruitWars.Core
         {
             _gameState.GameFinished = true;
             _gameState.WinnerPlayerNumber = -1;
+        }
+
+        public void AssignCurrentPlayer(int playerNumber)
+        {
+            _gameState.CurrentPlayerNumber = playerNumber;
         }
 
         public GameState GetGameState()

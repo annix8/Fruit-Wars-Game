@@ -54,6 +54,7 @@ namespace FruitWars.Core
             BoardObject boardObject = Board[desiredRow, desiredCol];
             if (boardObject is Fruit)
             {
+                // TODO: change of speed happens on the next turn!
                 warrior.EatFruit((Fruit)boardObject);
                 Board[desiredRow, desiredCol] = warrior;
             }
@@ -82,11 +83,6 @@ namespace FruitWars.Core
             }
 
             Board[warriorCurrentRow, warriorCurrentCol] = null;
-        }
-
-        public GameState GetGameState()
-        {
-            return _gameStateController.GetGameState();
         }
 
         private void InitializeBoardWithNullBoardObjects()

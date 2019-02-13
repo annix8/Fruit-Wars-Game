@@ -8,7 +8,6 @@ namespace FruitWars.Services
 {
     public class StringFrameCreator : IFrameCreator
     {
-        // creates a frame based on the game state
         public IFrame CreateFrame(GameState gameState)
         {
             // todo make mapping of the board objects and their console char representations

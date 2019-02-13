@@ -15,5 +15,6 @@ namespace FruitWars.Core.Models
         public Dictionary<int, Player> PlayersByPlayerNumber { get; set; }
         public bool GameFinished { get; set; }
         public int WinnerPlayerNumber { get; set; }
+        public int CurrentPlayerNumber { get; set; }
     }
 }

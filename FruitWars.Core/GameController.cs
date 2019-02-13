@@ -14,18 +14,21 @@ namespace FruitWars.Core
         private const string StartNewGameMessage = "Do you want to start a rematch? (y/n)";
 
         private readonly BoardController _boardController;
+        private readonly GameStateController _gameStateController;
         private readonly IInputReceiver _inputReceiver;
         private readonly IRenderer _renderer;
         private readonly WarriorFactory _warriorFactory;
         private readonly IFrameCreator _frameCreator;
 
         public GameController(BoardController boardController,
+            GameStateController gameStateController,
             IInputReceiver playerInputReceiver,
             IRenderer playerOutputSender,
             WarriorFactory warriorFactory,
             IFrameCreator frameCreator)
         {
             _boardController = boardController;
+            _gameStateController = gameStateController;
             _inputReceiver = playerInputReceiver;
             _renderer = playerOutputSender;
             _warriorFactory = warriorFactory;
@@ -46,7 +49,7 @@ namespace FruitWars.Core
                 // loop for a single game
                 while (true)
                 {
-                    GameState gameState = _boardController.GetGameState();
+                    GameState gameState = _gameStateController.GetGameState();
                     IFrame frame = _frameCreator.CreateFrame(gameState);
                     _renderer.RenderFrame(frame);
 
@@ -58,8 +61,16 @@ namespace FruitWars.Core
                     // ask for player input
                     foreach (var player in players)
                     {
-                        Direction direction = _inputReceiver.ReceiveDirectionInput();
-                        _boardController.MovePlayerWarrior(player.Number, direction);
+                        _gameStateController.AssignCurrentPlayer(player.Number);
+                        int numberOfMoves = player.Warrior.Speed;
+                        while(numberOfMoves > 0)
+                        {
+                            // todo handle invalid input
+                            Direction direction = _inputReceiver.ReceiveDirectionInput();
+                            _boardController.MovePlayerWarrior(player.Number, direction);
+                            // if input is valid lower number of moves
+                            numberOfMoves--;
+                        }
                     }
                 }
 
