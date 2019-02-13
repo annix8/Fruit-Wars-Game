@@ -4,7 +4,6 @@ using FruitWars.Core.Models.Fruits;
 using FruitWars.Core.Models.Warriors;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace FruitWars.Core
 {
@@ -86,11 +85,11 @@ namespace FruitWars.Core
         private void InitializeBoardWithNullBoardObjects()
         {
             Board = new Board();
-            for (int i = 0; i < Board.Rows; i++)
+            for (int row = 0; row < Board.Rows; row++)
             {
-                for (int j = 0; j < Board.Cols; j++)
+                for (int col = 0; col < Board.Cols; col++)
                 {
-                    Board[i, j] = new NullBoardObject();
+                    Board[row, col] = new NullBoardObject();
                 }
             }
         }
