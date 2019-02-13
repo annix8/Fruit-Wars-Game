@@ -24,7 +24,7 @@ namespace FruitWars.Core
         public void InitializeNewBoard(Dictionary<int, int> warriorTypesByPlayerNumber)
         {
             InitializeBoardWithNullBoardObjects();
-            AddWarriorsToBoard(warriorTypesByPlayerNumber);
+            AddPlayerWarriorsToBoard(warriorTypesByPlayerNumber);
         }
 
         public void MovePlayerWarrior(int playerNumber, Direction direction)
@@ -76,7 +76,7 @@ namespace FruitWars.Core
             }
         }
 
-        private void AddWarriorsToBoard(Dictionary<int, int> warriorTypesByPlayerNumber)
+        private void AddPlayerWarriorsToBoard(Dictionary<int, int> warriorTypesByPlayerNumber)
         {
             int upperQuadrant = _random.Next(0, Board.Rows / 2);
             int lowerQuadrant = _random.Next(Board.Rows / 2, Board.Rows);

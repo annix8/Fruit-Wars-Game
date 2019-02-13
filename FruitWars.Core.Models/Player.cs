@@ -11,8 +11,6 @@ namespace FruitWars.Core.Models
 
         public Warrior Warrior { get; set; }
         public int Number { get; private set; }
-        public int WarriorRow { get; set; }
-        public int WarriorCol { get; set; }
 
         public override string ToString()
         {
