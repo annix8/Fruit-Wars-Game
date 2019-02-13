@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FruitWars.Contracts;
 using FruitWars.Contracts.IO;
 using FruitWars.Core.Factory;
 using FruitWars.Core.Models;
 using FruitWars.Core.Models.Enums;
+using FruitWars.Core.Models.Warriors;
 
 namespace FruitWars.Core
 {
@@ -43,8 +45,9 @@ namespace FruitWars.Core
             // loop for the different games
             while (playNewGame)
             {
-                Dictionary<int, int> warriorTypesByPlayerNumber = GetWarriorTypesForPlayers(players);
+                Dictionary<int, Warrior> warriorTypesByPlayerNumber = GetWarriorTypesForPlayers(players);
                 _boardController.CreateNewBoard(warriorTypesByPlayerNumber);
+                _gameStateController.GameState = new GameState(_boardController.Board, players.ToDictionary(x => x.Number, x => x));
 
                 // loop for a single game
                 while (true)
@@ -84,20 +87,24 @@ namespace FruitWars.Core
             for (int playerNumber = 1; playerNumber <= NumberOfPlayers; playerNumber++)
             {
                 var player = new Player(playerNumber);
+                players.Add(player);
             }
 
             return players;
         }
 
-        private Dictionary<int, int> GetWarriorTypesForPlayers(List<Player> players)
+        private Dictionary<int, Warrior> GetWarriorTypesForPlayers(List<Player> players)
         {
-            Dictionary<int, int> warriorTypesByPlayerNumber = new Dictionary<int, int>();
+            Dictionary<int, Warrior> warriorTypesByPlayerNumber = new Dictionary<int, Warrior>();
             foreach (var player in players)
             {
+                // todo handle invalid input for warrior types
                 string message = string.Format(ChooseWarriorMessage, player.Number);
                 _renderer.RenderMessage(message);
                 int warriorType = int.Parse(_inputReceiver.ReceiveStringInput());
-                warriorTypesByPlayerNumber.Add(player.Number, warriorType);
+                Warrior warrior = _warriorFactory.Create(warriorType);
+                player.Warrior = warrior;
+                warriorTypesByPlayerNumber.Add(player.Number, warrior);
             }
 
             return warriorTypesByPlayerNumber;

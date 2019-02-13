@@ -13,6 +13,7 @@ namespace FruitWars.Services
             // todo make mapping of the board objects and their console char representations
             // todo write real symbols for game objects
             // todo if the game is finished, display winner
+            var boardObjectMapper = new BoardObjectToSymbolMapper();
             var stringBuilder = new StringBuilder();
             Board board = gameState.Board;
             List<Player> players = gameState.PlayersByPlayerNumber.Select(x => x.Value).ToList();
@@ -21,7 +22,9 @@ namespace FruitWars.Services
             {
                 for (int j = 0; j < board.Cols; j++)
                 {
-                    stringBuilder.Append("-");
+                    BoardObject boardObject = board[i, j];
+                    char symbol = boardObjectMapper.GetSymbol(boardObject);
+                    stringBuilder.Append(symbol);
                 }
                 stringBuilder.AppendLine();
             }

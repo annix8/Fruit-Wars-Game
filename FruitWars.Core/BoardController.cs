@@ -25,7 +25,7 @@ namespace FruitWars.Core
 
         public Board Board { get; private set; }
 
-        public void CreateNewBoard(Dictionary<int, int> warriorTypesByPlayerNumber)
+        public void CreateNewBoard(Dictionary<int, Warrior> warriorTypesByPlayerNumber)
         {
             InitializeBoardWithNullBoardObjects();
             AddPlayerWarriorsToBoard(warriorTypesByPlayerNumber);
@@ -97,27 +97,32 @@ namespace FruitWars.Core
             }
         }
 
-        private void AddPlayerWarriorsToBoard(Dictionary<int, int> warriorTypesByPlayerNumber)
+        private void AddPlayerWarriorsToBoard(Dictionary<int, Warrior> warriorsByPlayerNumber)
         {
-            int upperQuadrant = _random.Next(0, Board.Rows / 2);
-            int lowerQuadrant = _random.Next(Board.Rows / 2, Board.Rows);
-            int[] quadrantRows = new int[] { upperQuadrant, lowerQuadrant };
-            int leftQuadrant = _random.Next(0, Board.Cols / 2);
-            int rightQuadrant = _random.Next(Board.Cols / 2, Board.Cols);
-            int[] quadrantCols = new int[] { leftQuadrant, rightQuadrant };
-            int row = quadrantRows[_random.Next(0, quadrantRows.Length)];
-            int col = quadrantCols[_random.Next(0, quadrantCols.Length)];
+            int randomRow = _random.Next(0, Board.Rows);
+            int randomCol = _random.Next(0, Board.Cols);
+            List<(int, int)> takenPositions = new List<(int, int)>();
 
-            var mockX = 0;
-            var mockY = 0;
-            foreach (var kvp in warriorTypesByPlayerNumber)
+            foreach (var kvp in warriorsByPlayerNumber)
             {
                 int playerNumber = kvp.Key;
-                int warriorType = kvp.Value;
-                _warriorPositionsByPlayerNumber[playerNumber] = (mockX, mockY);
-                mockX = 8;
-                mockY = 8;
-                // randomly put the players' warriors on the board + fruits
+                Warrior warrior = kvp.Value;
+
+                while (true)
+                {
+                    randomRow = _random.Next(0, Board.Rows);
+                    randomCol = _random.Next(0, Board.Cols);
+
+                    // todo at least 3 positions away logic!
+                    if(!takenPositions.Contains((randomRow, randomCol)))
+                    {
+                        break;
+                    }
+                }
+
+                _warriorPositionsByPlayerNumber[playerNumber] = (randomRow, randomCol);
+                Board[randomRow, randomCol] = warrior;
+                takenPositions.Add((randomRow, randomCol));
             }
         }
     }
