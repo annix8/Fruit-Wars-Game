@@ -7,8 +7,8 @@
     <ProjectGuid>{C8FF4CFD-BF4D-47CF-967D-66E4A571D6C8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FruitWars.Models</RootNamespace>
-    <AssemblyName>FruitWars.Models</AssemblyName>
+    <RootNamespace>FruitWars.Core.Models</RootNamespace>
+    <AssemblyName>FruitWars.Core.Models</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -50,6 +50,7 @@
     <Compile Include="Fruits\Apple.cs" />
     <Compile Include="Fruits\Fruit.cs" />
     <Compile Include="Fruits\Pear.cs" />
+    <Compile Include="GameState.cs" />
     <Compile Include="NullBoardObject.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

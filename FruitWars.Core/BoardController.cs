@@ -9,47 +9,38 @@ namespace FruitWars.Core
 {
     public class BoardController
     {
+        private readonly Dictionary<int, (int, int)> _warriorPositionsByPlayerNumber;
         private readonly Random _random;
 
         public BoardController()
         {
-            InitializeBoard();
+            _warriorPositionsByPlayerNumber = new Dictionary<int, (int, int)>();
             _random = new Random();
         }
 
         public Board Board { get; private set; }
 
-        public void AddPlayersWarriorsToBoard(List<Player> players)
-        {
-            int upperQuadrant = _random.Next(0, Board.Rows / 2);
-            int lowerQuadrant = _random.Next(Board.Rows / 2, Board.Rows);
-            int[] quadrantRows = new int[] { upperQuadrant, lowerQuadrant };
-            int leftQuadrant = _random.Next(0, Board.Cols / 2);
-            int rightQuadrant = _random.Next(Board.Cols / 2, Board.Cols);
-            int[] quadrantCols = new int[] { leftQuadrant, rightQuadrant };
-            int row = quadrantRows[_random.Next(0, quadrantRows.Length)];
-            int col = quadrantCols[_random.Next(0, quadrantCols.Length)];
 
-            foreach (var player in players)
-            {
-                // randomly put the players' warriors on the board + fruits
-            }
+        public void InitializeNewBoard(Dictionary<int, int> warriorTypesByPlayerNumber)
+        {
+            InitializeBoardWithNullBoardObjects();
+            AddWarriorsToBoard(warriorTypesByPlayerNumber);
         }
 
-        public (int, int) MoveWarrior(int warriorCurrentRow, int warriorCurrentCol, Direction direction)
+        public void MovePlayerWarrior(int playerNumber, Direction direction)
         {
+            int warriorCurrentRow = _warriorPositionsByPlayerNumber[playerNumber].Item1;
+            int warriorCurrentCol = _warriorPositionsByPlayerNumber[playerNumber].Item2;
             int desiredRow = warriorCurrentRow + 1; // todo according to direction
             int desiredCol = warriorCurrentCol + 1; // todo according to direction
             if ((desiredRow < 0 || desiredRow >= Board.Rows)
                 || (desiredCol < 0 || desiredCol >= Board.Cols))
             {
                 // player is trying to move out of board so return his warrior's current position
-                return (warriorCurrentRow, warriorCurrentCol);
                 // maybe throw custom exception and catch it in caller?
             }
 
             Warrior warrior = Board[warriorCurrentRow, warriorCurrentCol] as Warrior;
-
             if (warrior == null)
             {
                 throw new ArgumentException($"Row: {warriorCurrentRow}, Col: {warriorCurrentCol} is not a warrior but a {Board[warriorCurrentRow, warriorCurrentCol].GetType()}");
@@ -72,11 +63,9 @@ namespace FruitWars.Core
             }
 
             Board[warriorCurrentRow, warriorCurrentCol] = null;
-
-            return (desiredRow, desiredCol);
         }
 
-        private void InitializeBoard()
+        private void InitializeBoardWithNullBoardObjects()
         {
             for (int i = 0; i < Board.Rows; i++)
             {
@@ -84,6 +73,30 @@ namespace FruitWars.Core
                 {
                     Board[i, j] = new NullBoardObject();
                 }
+            }
+        }
+
+        private void AddWarriorsToBoard(Dictionary<int, int> warriorTypesByPlayerNumber)
+        {
+            int upperQuadrant = _random.Next(0, Board.Rows / 2);
+            int lowerQuadrant = _random.Next(Board.Rows / 2, Board.Rows);
+            int[] quadrantRows = new int[] { upperQuadrant, lowerQuadrant };
+            int leftQuadrant = _random.Next(0, Board.Cols / 2);
+            int rightQuadrant = _random.Next(Board.Cols / 2, Board.Cols);
+            int[] quadrantCols = new int[] { leftQuadrant, rightQuadrant };
+            int row = quadrantRows[_random.Next(0, quadrantRows.Length)];
+            int col = quadrantCols[_random.Next(0, quadrantCols.Length)];
+
+            var mockX = 0;
+            var mockY = 0;
+            foreach (var kvp in warriorTypesByPlayerNumber)
+            {
+                int playerNumber = kvp.Key;
+                int warriorType = kvp.Value;
+                _warriorPositionsByPlayerNumber[playerNumber] = (mockX, mockY);
+                mockX = 8;
+                mockY = 8;
+                // randomly put the players' warriors on the board + fruits
             }
         }
     }

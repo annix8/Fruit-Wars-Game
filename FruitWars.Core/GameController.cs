@@ -1,10 +1,9 @@
-﻿using FruitWars.Contracts;
+﻿using System.Collections.Generic;
+using FruitWars.Contracts;
 using FruitWars.Contracts.IO;
 using FruitWars.Core.Factory;
 using FruitWars.Core.Models;
 using FruitWars.Core.Models.Enums;
-using FruitWars.Core.Models.Warriors;
-using System.Collections.Generic;
 
 namespace FruitWars.Core
 {
@@ -36,13 +35,14 @@ namespace FruitWars.Core
         public void RunGameLoop()
         {
             List<Player> players = CreatePlayers();
-            CreateWarriorsForPlayers(players);
-
             bool playNewGame = true;
 
             // loop for the different games
             while (playNewGame)
             {
+                Dictionary<int, int> warriorTypesByPlayerNumber = GetWarriorTypesForPlayers(players);
+                _boardController.InitializeNewBoard(warriorTypesByPlayerNumber);
+
                 // loop for a single game
                 while (true)
                 {
@@ -56,9 +56,7 @@ namespace FruitWars.Core
                     foreach (var player in players)
                     {
                         Direction direction = _inputReceiver.ReceiveDirectionInput();
-                        (int row, int col) = _boardController.MoveWarrior(player.WarriorRow, player.WarriorCol, direction);
-                        player.WarriorRow = row;
-                        player.WarriorCol = col;
+                        _boardController.MovePlayerWarrior(player.Number, direction);
                     }
 
                     break;
@@ -66,7 +64,6 @@ namespace FruitWars.Core
 
                 playNewGame = AskForRematch();
             }
-            _boardController.AddPlayersWarriorsToBoard(players);
         }
 
         private List<Player> CreatePlayers()
@@ -80,16 +77,18 @@ namespace FruitWars.Core
             return players;
         }
 
-        private void CreateWarriorsForPlayers(List<Player> players)
+        private Dictionary<int, int> GetWarriorTypesForPlayers(List<Player> players)
         {
+            Dictionary<int, int> warriorTypesByPlayerNumber = new Dictionary<int, int>();
             foreach (var player in players)
             {
                 string message = string.Format(ChooseWarriorMessage, player.Number);
                 _renderer.RenderMessage(message);
                 int warriorType = int.Parse(_inputReceiver.ReceiveStringInput());
-                Warrior warrior = _warriorFactory.Create(warriorType);
-                player.Warrior = warrior;
+                warriorTypesByPlayerNumber.Add(player.Number, warriorType);
             }
+
+            return warriorTypesByPlayerNumber;
         }
 
         private bool AskForRematch()
