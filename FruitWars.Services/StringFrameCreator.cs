@@ -46,6 +46,19 @@ namespace FruitWars.Services
             else
             {
                 // todo if the game is finished, display winner
+                Player winner = gameState.Players.FirstOrDefault(x => x.Number == gameState.WinnerPlayerNumber);
+
+                // game should be draw
+                if (winner == null)
+                {
+
+                }
+                else
+                {
+                    string message = $"Player{winner.Number} wins the game.";
+                    stringBuilder.AppendLine(message);
+                    stringBuilder.AppendLine(winner.ToString());
+                }
             }
 
             return new StringFrame(stringBuilder.ToString());
