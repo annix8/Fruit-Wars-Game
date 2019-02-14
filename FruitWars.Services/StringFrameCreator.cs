@@ -8,11 +8,17 @@ namespace FruitWars.Services
 {
     public class StringFrameCreator : IFrameCreator
     {
+        private readonly BoardObjectToSymbolMapper _boardObjectToSymbolMapper;
+
+        public StringFrameCreator(BoardObjectToSymbolMapper boardObjectToSymbolMapper)
+        {
+            _boardObjectToSymbolMapper = boardObjectToSymbolMapper;
+        }
+
         // todo magic strings should be at least constants
         public IFrame CreateFrame(GameState gameState)
         {
-            var boardObjectMapper = new BoardObjectToSymbolMapper();
-            var stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new StringBuilder();
             Board board = gameState.Board;
 
             for (int row = 0; row < board.Rows; row++)
@@ -28,7 +34,7 @@ namespace FruitWars.Services
                     }
                     else
                     {
-                        symbol = boardObjectMapper.GetSymbol(boardObject, gameState.CurrentPlayerNumber);
+                        symbol = _boardObjectToSymbolMapper.GetSymbol(boardObject, gameState.CurrentPlayerNumber);
                     }
 
                     stringBuilder.Append(symbol);

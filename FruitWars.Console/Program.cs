@@ -12,7 +12,7 @@ namespace FruitWars
         {
             IInputReceiver inputReceiver = new ConsoleInputReceiver();
             IRenderer renderer = new ConsoleRenderer();
-            IFrameCreator frameCreator = new StringFrameCreator();
+            IFrameCreator frameCreator = new StringFrameCreator(new BoardObjectToSymbolMapper());
             new GameEngine(inputReceiver, renderer, frameCreator).RunGame();
         }
     }

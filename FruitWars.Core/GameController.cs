@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using FruitWars.Contracts;
+﻿using FruitWars.Contracts;
 using FruitWars.Contracts.IO;
 using FruitWars.Core.Factory;
 using FruitWars.Core.Models;
 using FruitWars.Core.Models.Enums;
 using FruitWars.Core.Models.Warriors;
+using System.Collections.Generic;
 
 namespace FruitWars.Core
 {
