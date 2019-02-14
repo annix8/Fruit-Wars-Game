@@ -43,9 +43,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoardObjectToSymbolMapper.cs" />
+    <Compile Include="Contracts\IStringGameStateFrameCreator.cs" />
+    <Compile Include="FinishedGameStateStringFrameCreator.cs" />
+    <Compile Include="InProgressStateStringFrameCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringFrame.cs" />
     <Compile Include="StringFrameCreator.cs" />
+    <Compile Include="WarriorSelectStateStringFrameCreator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FruitWars.Contracts\FruitWars.Contracts.csproj">

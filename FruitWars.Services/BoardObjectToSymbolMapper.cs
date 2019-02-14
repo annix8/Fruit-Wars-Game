@@ -23,7 +23,7 @@ namespace FruitWars.Services
         {
             if (!_symbolsByBoardObject.ContainsKey(boardObject.GetType()))
             {
-                throw new ArgumentException($"Board object not found.");
+                throw new ArgumentException($"Board object {boardObject.GetType().Name} not found in {GetType().Name}.");
             }
 
             return _symbolsByBoardObject[boardObject.GetType()].Invoke();

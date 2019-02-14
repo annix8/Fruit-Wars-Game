@@ -34,7 +34,7 @@ namespace FruitWars.Core.BoardObjectCollisionHandlers.Factory
                 }
             }
 
-            throw new ArgumentException($"Board object {boardObject.GetType().Name} does not have collision handler.");
+            throw new ArgumentException($"Board object {boardObject.GetType().Name} does not have an associated collision handler.");
         }
     }
 }
