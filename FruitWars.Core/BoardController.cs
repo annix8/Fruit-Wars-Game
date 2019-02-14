@@ -15,7 +15,6 @@ namespace FruitWars.Core
         private readonly GameStateController _gameStateController;
         private readonly FruitFactory _fruitFactory;
         private readonly ObjectCollisionHandlerFactory _objectCollisionHandlerFactory;
-        private readonly Random _random;
 
         public BoardController(GameStateController gameStateController,
             FruitFactory fruitFactory,
@@ -24,7 +23,6 @@ namespace FruitWars.Core
             _gameStateController = gameStateController;
             _fruitFactory = fruitFactory;
             _objectCollisionHandlerFactory = objectCollisionHandlerFactory;
-            _random = new Random();
         }
 
         public Board Board { get; private set; }
@@ -78,8 +76,9 @@ namespace FruitWars.Core
 
         private void AddWarriorsAndFruitsToBoard(Dictionary<int, Warrior> warriorsByPlayerNumber)
         {
-            int randomRow = _random.Next(0, Board.Rows);
-            int randomCol = _random.Next(0, Board.Cols);
+            Random random = new Random();
+            int randomRow = random.Next(0, Board.Rows);
+            int randomCol = random.Next(0, Board.Cols);
             List<(int, int)> takenPositions = new List<(int, int)>();
 
             foreach (var kvp in warriorsByPlayerNumber)
@@ -89,8 +88,8 @@ namespace FruitWars.Core
 
                 while (true)
                 {
-                    randomRow = _random.Next(0, Board.Rows);
-                    randomCol = _random.Next(0, Board.Cols);
+                    randomRow = random.Next(0, Board.Rows);
+                    randomCol = random.Next(0, Board.Cols);
 
                     // todo at least 3 positions away logic!
                     if (!takenPositions.Contains((randomRow, randomCol)))
@@ -109,8 +108,8 @@ namespace FruitWars.Core
             {
                 while (true)
                 {
-                    randomRow = _random.Next(0, Board.Rows);
-                    randomCol = _random.Next(0, Board.Cols);
+                    randomRow = random.Next(0, Board.Rows);
+                    randomCol = random.Next(0, Board.Cols);
 
                     // todo at least 3 positions away logic!
                     if (!takenPositions.Contains((randomRow, randomCol)))
