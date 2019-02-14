@@ -44,9 +44,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoardObjectCollisionHandlers\Contracts\IObjectCollisionHandlerFactory.cs" />
+    <Compile Include="BoardObjectCollisionHandlers\Factory\FruitObjectCollisionHandlerFactory.cs" />
+    <Compile Include="BoardObjectCollisionHandlers\Factory\NullObjectCollisionHandlerFactory.cs" />
+    <Compile Include="BoardObjectCollisionHandlers\Factory\WarriorObjectCollisionHandlerFactory.cs" />
     <Compile Include="Controllers\BoardController.cs" />
     <Compile Include="BoardObjectCollisionHandlers\Contracts\IBoardObjectCollisionHandler.cs" />
-    <Compile Include="BoardObjectCollisionHandlers\Factory\ObjectCollisionHandlerFactory.cs" />
+    <Compile Include="BoardObjectCollisionHandlers\Factory\AbstractObjectCollisionHandlerFactory.cs" />
     <Compile Include="BoardObjectCollisionHandlers\FruitObjectCollisionHandler.cs" />
     <Compile Include="BoardObjectCollisionHandlers\NullObjectCollisionHandler.cs" />
     <Compile Include="BoardObjectCollisionHandlers\WarriorObjectCollisionHandler.cs" />

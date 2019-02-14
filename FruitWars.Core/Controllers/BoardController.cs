@@ -14,11 +14,11 @@ namespace FruitWars.Core.Controllers
     {
         private readonly GameStateController _gameStateController;
         private readonly FruitFactory _fruitFactory;
-        private readonly ObjectCollisionHandlerFactory _objectCollisionHandlerFactory;
+        private readonly AbstractObjectCollisionHandlerFactory _objectCollisionHandlerFactory;
 
         public BoardController(GameStateController gameStateController,
             FruitFactory fruitFactory,
-            ObjectCollisionHandlerFactory objectCollisionHandlerFactory)
+            AbstractObjectCollisionHandlerFactory objectCollisionHandlerFactory)
         {
             _gameStateController = gameStateController;
             _fruitFactory = fruitFactory;

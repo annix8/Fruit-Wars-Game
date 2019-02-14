@@ -31,7 +31,7 @@ namespace FruitWars.Core
         {
             GameStateController gameStateController = new GameStateController();
             FruitFactory fruitFactory = new FruitFactory();
-            ObjectCollisionHandlerFactory objectCollisionHandlerFactory = new ObjectCollisionHandlerFactory(gameStateController);
+            AbstractObjectCollisionHandlerFactory objectCollisionHandlerFactory = new AbstractObjectCollisionHandlerFactory(gameStateController);
             BoardController boardController = new BoardController(gameStateController, fruitFactory, objectCollisionHandlerFactory);
             WarriorFactory warriorFactory = new WarriorFactory();
             PlayerFactory playerFactory = new PlayerFactory();
