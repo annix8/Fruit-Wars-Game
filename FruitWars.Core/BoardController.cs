@@ -31,7 +31,7 @@ namespace FruitWars.Core
             _gameStateController.GameState.Board = Board;
         }
 
-        public void MovePlayerWarrior(int playerNumber, Direction direction)
+        public bool MovePlayerWarrior(int playerNumber, Direction direction)
         {
             // todo fix logic that checks the winner
             (int warriorCurrentRow, int warriorCurrentCol) = _gameStateController.GetWarriorPositionsByPlayerNumber(playerNumber);
@@ -41,6 +41,7 @@ namespace FruitWars.Core
             {
                 // player is trying to move out of board so return his warrior's current position
                 // maybe throw custom exception and catch it in caller?
+                return false;
             }
 
             Warrior warrior = Board[warriorCurrentRow, warriorCurrentCol] as Warrior;
@@ -82,6 +83,7 @@ namespace FruitWars.Core
 
             Board[warriorCurrentRow, warriorCurrentCol] = null;
             _gameStateController.AssignWarriorPositionToPlayer(playerNumber, desiredRow, desiredCol);
+            return true;
         }
 
         private void InitializeBoardWithNullBoardObjects()

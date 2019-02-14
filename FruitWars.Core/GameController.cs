@@ -95,14 +95,17 @@ namespace FruitWars.Core
                 {
                     // todo handle invalid input
                     Direction direction = _inputReceiver.ReceiveDirectionInput();
-                    _boardController.MovePlayerWarrior(player.Number, direction);
-                    if (_gameStateController.GameState.GameFinished)
+                    bool successfulMove =_boardController.MovePlayerWarrior(player.Number, direction);
+                    if (successfulMove)
                     {
-                        break;
+                        if (_gameStateController.GameState.GameFinished)
+                        {
+                            break;
+                        }
+                        // if input is valid lower number of moves
+                        numberOfMoves--;
+                        Render();
                     }
-                    // if input is valid lower number of moves
-                    numberOfMoves--;
-                    Render();
                 }
             }
         }
