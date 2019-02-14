@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace FruitWars.Core.Models
+namespace FruitWars.Core.Models.GameState
 {
-    public class InProgressGameState : GameState
+    public class InProgressGameState : GameStateBase
     {
         public InProgressGameState()
         {

@@ -1,5 +1,6 @@
 ﻿using FruitWars.Contracts;
 using FruitWars.Core.Models;
+using FruitWars.Core.Models.GameState;
 using FruitWars.Core.Models.Warriors;
 using System;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace FruitWars.Services
             _boardObjectToSymbolMapper = boardObjectToSymbolMapper;
         }
         
-        public IFrame CreateFrame(GameState gameState)
+        public IFrame CreateFrame(GameStateBase gameState)
         {
             // TODO: there has to be a mapping somewhere... is there a better way?
             if (gameState is WarriorSelectGameState)

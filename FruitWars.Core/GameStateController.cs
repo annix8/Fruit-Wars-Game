@@ -1,4 +1,5 @@
 ﻿using FruitWars.Core.Models;
+using FruitWars.Core.Models.GameState;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,7 +7,7 @@ namespace FruitWars.Core
 {
     public class GameStateController
     {
-        public GameState GameState { get; private set; }
+        public GameStateBase GameState { get; private set; }
 
         public void CreateNewGameState()
         {

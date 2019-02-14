@@ -1,9 +1,9 @@
-﻿using FruitWars.Core.Models;
+﻿using FruitWars.Core.Models.GameState;
 
 namespace FruitWars.Contracts
 {
     public interface IFrameCreator
     {
-        IFrame CreateFrame(GameState gameState);
+        IFrame CreateFrame(GameStateBase gameState);
     }
 }

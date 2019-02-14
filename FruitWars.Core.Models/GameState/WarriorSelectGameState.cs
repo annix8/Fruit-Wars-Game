@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace FruitWars.Core.Models
+namespace FruitWars.Core.Models.GameState
 {
-    public class WarriorSelectGameState : GameState
+    public class WarriorSelectGameState : GameStateBase
     {
         private readonly Dictionary<int, int> _warriorTypesByPlayerNumber;
         private readonly StringBuilder _stringBuilder;

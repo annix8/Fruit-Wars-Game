@@ -1,6 +1,6 @@
-﻿namespace FruitWars.Core.Models
+﻿namespace FruitWars.Core.Models.GameState
 {
-    public class FinishedGameState : GameState
+    public class FinishedGameState : GameStateBase
     {
         public FinishedGameState(Player winnerPlayer, Board board,  bool isGameDraw)
         {

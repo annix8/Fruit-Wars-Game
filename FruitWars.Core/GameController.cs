@@ -3,6 +3,7 @@ using FruitWars.Contracts.IO;
 using FruitWars.Core.Factory;
 using FruitWars.Core.Models;
 using FruitWars.Core.Models.Enums;
+using FruitWars.Core.Models.GameState;
 using FruitWars.Core.Models.Warriors;
 using System.Collections.Generic;
 
@@ -141,7 +142,7 @@ namespace FruitWars.Core
 
         private void Render()
         {
-            GameState gameState = _gameStateController.GameState;
+            GameStateBase gameState = _gameStateController.GameState;
             IFrame frame = _frameCreator.CreateFrame(gameState);
             _renderer.RenderFrame(frame);
         }
