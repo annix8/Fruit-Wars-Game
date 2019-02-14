@@ -3,7 +3,7 @@ using FruitWars.Core.Models.GameState;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FruitWars.Core
+namespace FruitWars.Core.Controllers
 {
     public class GameStateController
     {

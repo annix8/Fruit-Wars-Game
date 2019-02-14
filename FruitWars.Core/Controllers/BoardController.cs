@@ -8,7 +8,7 @@ using FruitWars.Core.Models.Warriors;
 using System;
 using System.Collections.Generic;
 
-namespace FruitWars.Core
+namespace FruitWars.Core.Controllers
 {
     public class BoardController
     {

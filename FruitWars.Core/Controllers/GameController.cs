@@ -7,7 +7,7 @@ using FruitWars.Core.Models.GameState;
 using FruitWars.Core.Models.Warriors;
 using System.Collections.Generic;
 
-namespace FruitWars.Core
+namespace FruitWars.Core.Controllers
 {
     public class GameController
     {

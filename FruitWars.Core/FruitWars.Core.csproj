@@ -44,7 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BoardController.cs" />
+    <Compile Include="Controllers\BoardController.cs" />
     <Compile Include="BoardObjectCollisionHandlers\Contracts\IBoardObjectCollisionHandler.cs" />
     <Compile Include="BoardObjectCollisionHandlers\Factory\ObjectCollisionHandlerFactory.cs" />
     <Compile Include="BoardObjectCollisionHandlers\FruitObjectCollisionHandler.cs" />
@@ -53,9 +53,9 @@
     <Compile Include="Factory\FruitFactory.cs" />
     <Compile Include="Factory\PlayerFactory.cs" />
     <Compile Include="Factory\WarriorFactory.cs" />
-    <Compile Include="GameController.cs" />
+    <Compile Include="Controllers\GameController.cs" />
     <Compile Include="GameEngine.cs" />
-    <Compile Include="GameStateController.cs" />
+    <Compile Include="Controllers\GameStateController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
