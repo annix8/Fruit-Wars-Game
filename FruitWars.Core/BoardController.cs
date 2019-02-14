@@ -33,14 +33,12 @@ namespace FruitWars.Core
 
         public bool MovePlayerWarrior(int playerNumber, Direction direction)
         {
-            // todo fix logic that checks the winner
             (int warriorCurrentRow, int warriorCurrentCol) = _gameStateController.GetWarriorPositionsByPlayerNumber(playerNumber);
-            (int desiredRow, int desiredCol) = GetNextPosition(warriorCurrentRow, warriorCurrentCol, direction);
+            (int desiredRow, int desiredCol) = GetDesiredPosition(warriorCurrentRow, warriorCurrentCol, direction);
             if ((desiredRow < 0 || desiredRow >= Board.Rows)
                 || (desiredCol < 0 || desiredCol >= Board.Cols))
             {
-                // player is trying to move out of board so return his warrior's current position
-                // maybe throw custom exception and catch it in caller?
+                // player is trying to move out of board which is not allowed
                 return false;
             }
 
@@ -56,6 +54,7 @@ namespace FruitWars.Core
             {
                 warrior.EatFruit((Fruit)boardObject);
                 Board[desiredRow, desiredCol] = warrior;
+                _gameStateController.AssignWarriorPositionToPlayer(playerNumber, desiredRow, desiredCol);
             }
             else if (boardObject is Warrior otherWarrior)
             {
@@ -79,10 +78,11 @@ namespace FruitWars.Core
             else
             {
                 Board[desiredRow, desiredCol] = warrior;
+                _gameStateController.AssignWarriorPositionToPlayer(playerNumber, desiredRow, desiredCol);
             }
 
             Board[warriorCurrentRow, warriorCurrentCol] = null;
-            _gameStateController.AssignWarriorPositionToPlayer(playerNumber, desiredRow, desiredCol);
+            
             return true;
         }
 
@@ -146,7 +146,7 @@ namespace FruitWars.Core
             }
         }
 
-        private (int, int) GetNextPosition(int currentRow, int currentCol, Direction direction)
+        private (int, int) GetDesiredPosition(int currentRow, int currentCol, Direction direction)
         {
             switch (direction)
             {
