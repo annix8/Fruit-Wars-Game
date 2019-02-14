@@ -1,4 +1,6 @@
-﻿using FruitWars.Core.Factory;
+﻿using FruitWars.Core.BoardObjectCollisionHandlers.Contracts;
+using FruitWars.Core.BoardObjectCollisionHandlers.Factory;
+using FruitWars.Core.Factory;
 using FruitWars.Core.Models;
 using FruitWars.Core.Models.Enums;
 using FruitWars.Core.Models.Fruits;
@@ -12,13 +14,16 @@ namespace FruitWars.Core
     {
         private readonly GameStateController _gameStateController;
         private readonly FruitFactory _fruitFactory;
+        private readonly ObjectCollisionHandlerFactory _objectCollisionHandlerFactory;
         private readonly Random _random;
 
         public BoardController(GameStateController gameStateController,
-            FruitFactory fruitFactory)
+            FruitFactory fruitFactory,
+            ObjectCollisionHandlerFactory objectCollisionHandlerFactory)
         {
             _gameStateController = gameStateController;
             _fruitFactory = fruitFactory;
+            _objectCollisionHandlerFactory = objectCollisionHandlerFactory;
             _random = new Random();
         }
 
@@ -48,36 +53,10 @@ namespace FruitWars.Core
                 throw new ArgumentException($"Row: {warriorCurrentRow}, Col: {warriorCurrentCol} is not a warrior but a {Board[warriorCurrentRow, warriorCurrentCol].GetType()}");
             }
 
-            // todo think of a way not to use if else "pattern"
             BoardObject boardObject = Board[desiredRow, desiredCol];
-            if (boardObject is Fruit)
-            {
-                warrior.EatFruit((Fruit)boardObject);
-                Board[desiredRow, desiredCol] = warrior;
-            }
-            else if (boardObject is Warrior otherWarrior)
-            {
-                if (warrior.Power > otherWarrior.Power)
-                {
-                    // player that made the move wins
-                    Board[desiredRow, desiredCol] = warrior;
-                    _gameStateController.EndGameWithWinner(playerNumber);
-                }
-                else if (warrior.Power < otherWarrior.Power)
-                {
-                    // player that has warrior on desiredRow, desiredCol wins
-                    int otherPlayerNumber = _gameStateController.GetPlayerNumberByWarriorPosition(desiredRow, desiredCol);
-                    _gameStateController.EndGameWithWinner(otherPlayerNumber);
-                }
-                else
-                {
-                    _gameStateController.EndGameWithDraw();
-                }
-            }
-            else
-            {
-                Board[desiredRow, desiredCol] = warrior;
-            }
+            IBoardObjectCollisionHandler boardObjectCollisionHandler = _objectCollisionHandlerFactory
+                .Create(warrior, boardObject, desiredRow, desiredCol, playerNumber);
+            boardObjectCollisionHandler.Handle(Board);
 
             Board[warriorCurrentRow, warriorCurrentCol] = null;
             _gameStateController.AssignWarriorPositionToPlayer(playerNumber, desiredRow, desiredCol);

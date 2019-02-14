@@ -1,5 +1,6 @@
 ﻿using FruitWars.Contracts;
 using FruitWars.Contracts.IO;
+using FruitWars.Core.BoardObjectCollisionHandlers.Factory;
 using FruitWars.Core.Factory;
 
 namespace FruitWars.Core
@@ -29,7 +30,8 @@ namespace FruitWars.Core
         {
             GameStateController gameStateController = new GameStateController();
             FruitFactory fruitFactory = new FruitFactory();
-            BoardController boardController = new BoardController(gameStateController, fruitFactory);
+            ObjectCollisionHandlerFactory objectCollisionHandlerFactory = new ObjectCollisionHandlerFactory(gameStateController);
+            BoardController boardController = new BoardController(gameStateController, fruitFactory, objectCollisionHandlerFactory);
             WarriorFactory warriorFactory = new WarriorFactory();
             PlayerFactory playerFactory = new PlayerFactory();
             GameController gameController = new GameController(

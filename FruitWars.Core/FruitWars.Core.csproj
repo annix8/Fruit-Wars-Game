@@ -45,6 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoardController.cs" />
+    <Compile Include="BoardObjectCollisionHandlers\Contracts\IBoardObjectCollisionHandler.cs" />
+    <Compile Include="BoardObjectCollisionHandlers\Factory\ObjectCollisionHandlerFactory.cs" />
+    <Compile Include="BoardObjectCollisionHandlers\FruitObjectCollisionHandler.cs" />
+    <Compile Include="BoardObjectCollisionHandlers\NullObjectCollisionHandler.cs" />
+    <Compile Include="BoardObjectCollisionHandlers\WarriorObjectCollisionHandler.cs" />
     <Compile Include="Factory\FruitFactory.cs" />
     <Compile Include="Factory\PlayerFactory.cs" />
     <Compile Include="Factory\WarriorFactory.cs" />
