@@ -1,4 +1,5 @@
-﻿using FruitWars.Core.Models;
+﻿using FruitWars.Core.Factory;
+using FruitWars.Core.Models;
 using FruitWars.Core.Models.Enums;
 using FruitWars.Core.Models.Fruits;
 using FruitWars.Core.Models.Warriors;
@@ -10,11 +11,14 @@ namespace FruitWars.Core
     public class BoardController
     {
         private readonly GameStateController _gameStateController;
+        private readonly FruitFactory _fruitFactory;
         private readonly Random _random;
 
-        public BoardController(GameStateController gameStateController)
+        public BoardController(GameStateController gameStateController,
+            FruitFactory fruitFactory)
         {
             _gameStateController = gameStateController;
+            _fruitFactory = fruitFactory;
             _random = new Random();
         }
 
@@ -23,7 +27,7 @@ namespace FruitWars.Core
         public void CreateNewBoard(Dictionary<int, Warrior> warriorTypesByPlayerNumber)
         {
             InitializeBoardWithNullBoardObjects();
-            AddPlayerWarriorsToBoard(warriorTypesByPlayerNumber);
+            AddWarriorsAndFruitsToBoard(warriorTypesByPlayerNumber);
             _gameStateController.GameState.Board = Board;
         }
 
@@ -49,7 +53,6 @@ namespace FruitWars.Core
             BoardObject boardObject = Board[desiredRow, desiredCol];
             if (boardObject is Fruit)
             {
-                // TODO: change of speed happens on the next turn!
                 warrior.EatFruit((Fruit)boardObject);
                 Board[desiredRow, desiredCol] = warrior;
             }
@@ -93,7 +96,7 @@ namespace FruitWars.Core
             }
         }
 
-        private void AddPlayerWarriorsToBoard(Dictionary<int, Warrior> warriorsByPlayerNumber)
+        private void AddWarriorsAndFruitsToBoard(Dictionary<int, Warrior> warriorsByPlayerNumber)
         {
             int randomRow = _random.Next(0, Board.Rows);
             int randomCol = _random.Next(0, Board.Cols);
@@ -118,6 +121,25 @@ namespace FruitWars.Core
 
                 _gameStateController.AssignWarriorPositionToPlayer(playerNumber, randomRow, randomCol);
                 Board[randomRow, randomCol] = warrior;
+                takenPositions.Add((randomRow, randomCol));
+            }
+
+            List<Fruit> fruits = _fruitFactory.Create();
+            foreach (var fruit in fruits)
+            {
+                while (true)
+                {
+                    randomRow = _random.Next(0, Board.Rows);
+                    randomCol = _random.Next(0, Board.Cols);
+
+                    // todo at least 3 positions away logic!
+                    if (!takenPositions.Contains((randomRow, randomCol)))
+                    {
+                        break;
+                    }
+                }
+
+                Board[randomRow, randomCol] = fruit;
                 takenPositions.Add((randomRow, randomCol));
             }
         }
