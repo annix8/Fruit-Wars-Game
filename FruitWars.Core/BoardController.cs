@@ -54,7 +54,6 @@ namespace FruitWars.Core
             {
                 warrior.EatFruit((Fruit)boardObject);
                 Board[desiredRow, desiredCol] = warrior;
-                _gameStateController.AssignWarriorPositionToPlayer(playerNumber, desiredRow, desiredCol);
             }
             else if (boardObject is Warrior otherWarrior)
             {
@@ -78,11 +77,11 @@ namespace FruitWars.Core
             else
             {
                 Board[desiredRow, desiredCol] = warrior;
-                _gameStateController.AssignWarriorPositionToPlayer(playerNumber, desiredRow, desiredCol);
             }
 
             Board[warriorCurrentRow, warriorCurrentCol] = null;
-            
+            _gameStateController.AssignWarriorPositionToPlayer(playerNumber, desiredRow, desiredCol);
+
             return true;
         }
 

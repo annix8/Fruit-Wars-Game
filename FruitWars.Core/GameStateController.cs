@@ -14,8 +14,11 @@ namespace FruitWars.Core
 
         public void EndGameWithWinner(int winnerPlayerNumber)
         {
-            GameState.GameFinished = true;
+            (int winnerPlayerRow, int winnerPlayerCol) = GameState.WarriorPositionsByPlayerNumber[winnerPlayerNumber];
+            GameState.WarriorPositionsByPlayerNumber.Clear();
+            GameState.WarriorPositionsByPlayerNumber[winnerPlayerNumber] = (winnerPlayerRow, winnerPlayerCol);
             GameState.WinnerPlayerNumber = winnerPlayerNumber;
+            GameState.GameFinished = true;
         }
 
         public void EndGameWithDraw()
