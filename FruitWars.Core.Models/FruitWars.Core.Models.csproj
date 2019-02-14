@@ -47,13 +47,16 @@
     <Compile Include="Board.cs" />
     <Compile Include="BoardObject.cs" />
     <Compile Include="Enums\Direction.cs" />
+    <Compile Include="FinishedGameState.cs" />
     <Compile Include="Fruits\Apple.cs" />
     <Compile Include="Fruits\Fruit.cs" />
     <Compile Include="Fruits\Pear.cs" />
     <Compile Include="GameState.cs" />
+    <Compile Include="InProgressGameState.cs" />
     <Compile Include="NullBoardObject.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WarriorSelectGameState.cs" />
     <Compile Include="Warriors\Monkey.cs" />
     <Compile Include="Warriors\Pigeon.cs" />
     <Compile Include="Warriors\Turtle.cs" />

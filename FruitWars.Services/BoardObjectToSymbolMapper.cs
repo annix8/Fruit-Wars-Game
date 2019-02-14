@@ -19,7 +19,7 @@ namespace FruitWars.Services
             };
         }
 
-        public string GetSymbol(BoardObject boardObject, int playerNumber)
+        public string GetSymbol(BoardObject boardObject)
         {
             if (!_symbolsByBoardObject.ContainsKey(boardObject.GetType()))
             {

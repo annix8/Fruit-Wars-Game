@@ -20,7 +20,8 @@ namespace FruitWars.Core.BoardObjectCollisionHandlers.Factory
             // TODO: there has to be a mapping somewhere... is there a better way?
             if (boardObject is Fruit)
             {
-                return new FruitObjectCollisionHandler(currentWarriorOnTurn, (Fruit)boardObject, desiredRow, desiredCol);
+                return new FruitObjectCollisionHandler(_gameStateController, currentWarriorOnTurn, (Fruit)boardObject,
+                    desiredRow, desiredCol, playerNumberOnTurn);
             }
             else if (boardObject is Warrior)
             {
@@ -29,7 +30,8 @@ namespace FruitWars.Core.BoardObjectCollisionHandlers.Factory
             }
             else // NullBoardObject
             {
-                return new NullObjectCollisionHandler(currentWarriorOnTurn, desiredRow, desiredCol);
+                return new NullObjectCollisionHandler(_gameStateController, currentWarriorOnTurn,
+                    desiredRow, desiredCol, playerNumberOnTurn);
             }
         }
     }

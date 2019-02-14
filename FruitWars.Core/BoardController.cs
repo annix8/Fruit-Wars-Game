@@ -31,7 +31,7 @@ namespace FruitWars.Core
         {
             InitializeBoardWithNullBoardObjects();
             AddWarriorsAndFruitsToBoard(warriorTypesByPlayerNumber);
-            _gameStateController.GameState.Board = Board;
+            _gameStateController.AddBoardToGameState(Board);
         }
 
         public bool MovePlayerWarrior(int playerNumber, Direction direction)
@@ -57,7 +57,6 @@ namespace FruitWars.Core
             boardObjectCollisionHandler.Handle(Board);
 
             Board[warriorCurrentRow, warriorCurrentCol] = null;
-            _gameStateController.AssignWarriorPositionToPlayer(playerNumber, desiredRow, desiredCol);
 
             return true;
         }

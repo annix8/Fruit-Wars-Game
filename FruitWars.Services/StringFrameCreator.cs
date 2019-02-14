@@ -1,6 +1,7 @@
 ﻿using FruitWars.Contracts;
 using FruitWars.Core.Models;
 using FruitWars.Core.Models.Warriors;
+using System;
 using System.Linq;
 using System.Text;
 
@@ -14,12 +15,37 @@ namespace FruitWars.Services
         {
             _boardObjectToSymbolMapper = boardObjectToSymbolMapper;
         }
-
-        // todo magic strings should be at least constants
+        
         public IFrame CreateFrame(GameState gameState)
         {
+            // TODO: there has to be a mapping somewhere... is there a better way?
+            if (gameState is WarriorSelectGameState)
+            {
+                return CreateWarriorSelectGameStateFrame(gameState as WarriorSelectGameState);
+            }
+            else if (gameState is InProgressGameState)
+            {
+                return CreateInProgressGameStateFrame(gameState as InProgressGameState);
+            }
+            else if (gameState is FinishedGameState)
+            {
+                return CreateFinishedGameStateFrame(gameState as FinishedGameState);
+            }
+            else
+            {
+                throw new ArgumentException($"No such game state {gameState.GetType().Name}");
+            }
+        }
+
+        private StringFrame CreateWarriorSelectGameStateFrame(WarriorSelectGameState warriorSelectGameState)
+        {
+            return new StringFrame(warriorSelectGameState.DisplayMessage.Trim());
+        }
+
+        private StringFrame CreateInProgressGameStateFrame(InProgressGameState inProgressGameState)
+        {
             StringBuilder stringBuilder = new StringBuilder();
-            Board board = gameState.Board;
+            Board board = inProgressGameState.Board;
 
             for (int row = 0; row < board.Rows; row++)
             {
@@ -29,12 +55,12 @@ namespace FruitWars.Services
                     string symbol;
                     if (boardObject is Warrior warrior)
                     {
-                        symbol = gameState.WarriorPositionsByPlayerNumber
+                        symbol = inProgressGameState.WarriorPositionsByPlayerNumber
                             .First(x => x.Value.Item1 == row && x.Value.Item2 == col).Key.ToString();
                     }
                     else
                     {
-                        symbol = _boardObjectToSymbolMapper.GetSymbol(boardObject, gameState.CurrentPlayerNumber);
+                        symbol = _boardObjectToSymbolMapper.GetSymbol(boardObject);
                     }
 
                     stringBuilder.Append(symbol);
@@ -42,31 +68,51 @@ namespace FruitWars.Services
                 stringBuilder.AppendLine();
             }
 
-            string playersMessages = string.Join("\n", gameState.Players);
+            string playersMessages = string.Join("\n", inProgressGameState.Players);
             stringBuilder.AppendLine(playersMessages);
+            stringBuilder.Append($"Player{inProgressGameState.CurrentPlayerNumber}, make a move please!");
 
-            if (!gameState.GameFinished)
+            return new StringFrame(stringBuilder.ToString());
+        }
+
+        private StringFrame CreateFinishedGameStateFrame(FinishedGameState finishedGameState)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            if (finishedGameState.IsGameDraw)
             {
-                stringBuilder.Append($"Player{gameState.CurrentPlayerNumber}, make a move please!");
+                stringBuilder.AppendLine("Draw game.");
             }
             else
             {
-                // todo if the game is finished, display winner
-                Player winner = gameState.Players.FirstOrDefault(x => x.Number == gameState.WinnerPlayerNumber);
+                Board board = finishedGameState.Board;
 
-                // game should be draw
-                if (winner == null)
+                for (int row = 0; row < board.Rows; row++)
                 {
-                    stringBuilder.Clear();
-                    stringBuilder.Append("Draw game.");
+                    for (int col = 0; col < board.Cols; col++)
+                    {
+                        BoardObject boardObject = board[row, col];
+                        string symbol;
+                        if (boardObject is Warrior warrior)
+                        {
+                            symbol = finishedGameState.WinnerPlayer.Number.ToString();
+                        }
+                        else
+                        {
+                            symbol = _boardObjectToSymbolMapper.GetSymbol(boardObject);
+                        }
+
+                        stringBuilder.Append(symbol);
+                    }
+                    stringBuilder.AppendLine();
                 }
-                else
-                {
-                    string message = $"Player{winner.Number} wins the game.";
-                    stringBuilder.AppendLine(message);
-                    stringBuilder.AppendLine(winner.ToString());
-                }
+
+                Player winner = finishedGameState.WinnerPlayer;
+                string message = $"Player{winner.Number} wins the game.";
+                stringBuilder.AppendLine(message);
+                stringBuilder.AppendLine(winner.ToString());
             }
+
+            stringBuilder.AppendLine("Do you want to start a rematch? (y/n)");
 
             return new StringFrame(stringBuilder.ToString());
         }

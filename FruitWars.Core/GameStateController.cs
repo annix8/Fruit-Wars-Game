@@ -1,4 +1,5 @@
 ﻿using FruitWars.Core.Models;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace FruitWars.Core
@@ -9,43 +10,76 @@ namespace FruitWars.Core
 
         public void CreateNewGameState()
         {
-            GameState = new GameState();
+            GameState = new WarriorSelectGameState();
+        }
+
+        public void CreateInProgressGameState()
+        {
+            GameState = new InProgressGameState();
         }
 
         public void EndGameWithWinner(int winnerPlayerNumber)
         {
-            (int winnerPlayerRow, int winnerPlayerCol) = GameState.WarriorPositionsByPlayerNumber[winnerPlayerNumber];
-            GameState.WarriorPositionsByPlayerNumber.Clear();
-            GameState.WarriorPositionsByPlayerNumber[winnerPlayerNumber] = (winnerPlayerRow, winnerPlayerCol);
-            GameState.WinnerPlayerNumber = winnerPlayerNumber;
-            GameState.GameFinished = true;
+            InProgressGameState gameState = GameState as InProgressGameState;
+            Player winnerPlayer = gameState.Players.First(x => x.Number == winnerPlayerNumber);
+            Board board = gameState.Board;
+            GameState = new FinishedGameState(winnerPlayer, board, false);
         }
 
         public void EndGameWithDraw()
         {
-            GameState.GameFinished = true;
-            GameState.WinnerPlayerNumber = -1;
+            InProgressGameState gameState = GameState as InProgressGameState;
+            Board board = gameState.Board;
+            GameState = new FinishedGameState(null, board, true);
+        }
+
+        public void AddScreenMessageToWarriorSelectScreen(string message)
+        {
+            WarriorSelectGameState gameState = GameState as WarriorSelectGameState;
+            gameState.AddLineToMessage(message);
+        }
+
+        public void AddPlayersToGameState(List<Player> players)
+        {
+            InProgressGameState gameState = GameState as InProgressGameState;
+            gameState.Players = players;
+        }
+
+        public void AddBoardToGameState(Board board)
+        {
+            InProgressGameState gameState = GameState as InProgressGameState;
+            gameState.Board = board;
         }
 
         public void AssignCurrentPlayer(int playerNumber)
         {
-            GameState.CurrentPlayerNumber = playerNumber;
+            InProgressGameState gameState = GameState as InProgressGameState;
+            gameState.CurrentPlayerNumber = playerNumber;
         }
 
         public void AssignWarriorPositionToPlayer(int playerNumber, int warriorRow, int warriorCol)
         {
-            GameState.WarriorPositionsByPlayerNumber[playerNumber] = (warriorRow, warriorCol);
+            InProgressGameState gameState = GameState as InProgressGameState;
+            gameState.WarriorPositionsByPlayerNumber[playerNumber] = (warriorRow, warriorCol);
         }
 
         public (int, int) GetWarriorPositionsByPlayerNumber(int playerNumber)
         {
-            return GameState.WarriorPositionsByPlayerNumber[playerNumber];
+            InProgressGameState gameState = GameState as InProgressGameState;
+            return gameState.WarriorPositionsByPlayerNumber[playerNumber];
+
         }
 
         public int GetPlayerNumberByWarriorPosition(int warriorRow, int warriorCol)
         {
-            return GameState.WarriorPositionsByPlayerNumber
+            InProgressGameState gameState = GameState as InProgressGameState;
+            return gameState.WarriorPositionsByPlayerNumber
                 .First(x => x.Value.Item1 == warriorRow && x.Value.Item2 == warriorCol).Key;
+        }
+
+        public bool IsGameFinished()
+        {
+            return GameState is FinishedGameState;
         }
     }
 }

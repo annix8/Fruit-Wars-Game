@@ -56,8 +56,10 @@ namespace FruitWars.Core
         private void CreateNewGame(List<Player> players)
         {
             _gameStateController.CreateNewGameState();
-            _boardController.CreateNewBoard(GetWarriorTypesForPlayers(players));
-            _gameStateController.GameState.Players = players;
+            Dictionary<int, Warrior> warriorsByPlayerNumber = GetWarriorsForPlayers(players);
+            _gameStateController.CreateInProgressGameState();
+            _boardController.CreateNewBoard(warriorsByPlayerNumber);
+            _gameStateController.AddPlayersToGameState(players);
             _gameStateController.AssignCurrentPlayer(1);
         }
 
@@ -68,7 +70,7 @@ namespace FruitWars.Core
             {
                 Render();
 
-                if (_gameStateController.GameState.GameFinished)
+                if (_gameStateController.IsGameFinished())
                 {
                     break;
                 }
@@ -81,7 +83,7 @@ namespace FruitWars.Core
         {
             foreach (var player in players)
             {
-                if (_gameStateController.GameState.GameFinished)
+                if (_gameStateController.IsGameFinished())
                 {
                     break;
                 }
@@ -97,7 +99,7 @@ namespace FruitWars.Core
                     bool successfulMove =_boardController.MovePlayerWarrior(player.Number, direction);
                     if (successfulMove)
                     {
-                        if (_gameStateController.GameState.GameFinished)
+                        if (_gameStateController.IsGameFinished())
                         {
                             break;
                         }
@@ -109,15 +111,17 @@ namespace FruitWars.Core
             }
         }
 
-        private Dictionary<int, Warrior> GetWarriorTypesForPlayers(List<Player> players)
+        private Dictionary<int, Warrior> GetWarriorsForPlayers(List<Player> players)
         {
             Dictionary<int, Warrior> warriorTypesByPlayerNumber = new Dictionary<int, Warrior>();
             foreach (var player in players)
             {
                 // todo handle invalid input for warrior types
                 string message = string.Format(ChooseWarriorMessage, player.Number);
-                _renderer.RenderMessage(message);
+                _gameStateController.AddScreenMessageToWarriorSelectScreen(message);
+                Render();
                 int warriorType = int.Parse(_inputReceiver.ReceiveStringInput());
+                _gameStateController.AddScreenMessageToWarriorSelectScreen(warriorType.ToString());
                 Warrior warrior = _warriorFactory.Create(warriorType);
                 player.Warrior = warrior;
                 warriorTypesByPlayerNumber.Add(player.Number, warrior);
@@ -129,7 +133,7 @@ namespace FruitWars.Core
         private bool AskForRematch()
         {
             // todo handle different inputs
-            _renderer.RenderMessage(StartNewGameMessage);
+            Render();
             string answer = _inputReceiver.ReceiveStringInput();
 
             return answer.ToLower() == "y";
