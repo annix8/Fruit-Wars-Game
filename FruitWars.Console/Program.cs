@@ -3,6 +3,7 @@ using FruitWars.Contracts.IO;
 using FruitWars.Core;
 using FruitWars.IO;
 using FruitWars.Services;
+using FruitWars.Services.FrameCreators;
 
 namespace FruitWars
 {

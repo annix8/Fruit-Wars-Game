@@ -1,14 +1,10 @@
 ﻿using FruitWars.Contracts;
-using FruitWars.Core.Models;
 using FruitWars.Core.Models.GameState;
-using FruitWars.Core.Models.Warriors;
 using FruitWars.Services.Contracts;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace FruitWars.Services
+namespace FruitWars.Services.FrameCreators
 {
     public class StringFrameCreator : IFrameCreator
     {

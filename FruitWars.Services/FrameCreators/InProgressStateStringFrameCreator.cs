@@ -6,7 +6,7 @@ using FruitWars.Services.Contracts;
 using System.Linq;
 using System.Text;
 
-namespace FruitWars.Services
+namespace FruitWars.Services.FrameCreators
 {
     public class InProgressStateStringFrameCreator : IStringGameStateFrameCreator
     {

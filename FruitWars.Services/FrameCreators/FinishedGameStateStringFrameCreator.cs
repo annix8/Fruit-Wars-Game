@@ -5,7 +5,7 @@ using FruitWars.Core.Models.Warriors;
 using FruitWars.Services.Contracts;
 using System.Text;
 
-namespace FruitWars.Services
+namespace FruitWars.Services.FrameCreators
 {
     public class FinishedGameStateStringFrameCreator : IStringGameStateFrameCreator
     {

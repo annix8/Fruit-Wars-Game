@@ -2,7 +2,7 @@
 using FruitWars.Core.Models.GameState;
 using FruitWars.Services.Contracts;
 
-namespace FruitWars.Services
+namespace FruitWars.Services.FrameCreators
 {
     public class WarriorSelectStateStringFrameCreator : IStringGameStateFrameCreator
     {
