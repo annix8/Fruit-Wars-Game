@@ -12,7 +12,6 @@ namespace FruitWars.Services.FrameCreators
     public class InProgressStateStringFrameCreator : IStringGameStateFrameCreator
     {
         private const string PlayerMakesMoveMessage = "Player{0}, make a move please!";
-
         private readonly BoardObjectToSymbolMapper _boardObjectToSymbolMapper;
 
         public InProgressStateStringFrameCreator(BoardObjectToSymbolMapper boardObjectToSymbolMapper)
@@ -64,7 +63,7 @@ namespace FruitWars.Services.FrameCreators
         {
             string playersMessages = string.Join(Environment.NewLine, inProgressGameState.Players);
             stringBuilder.AppendLine(playersMessages);
-            stringBuilder.Append(string.Join(PlayerMakesMoveMessage, inProgressGameState.CurrentPlayerNumber));
+            stringBuilder.Append(string.Format(PlayerMakesMoveMessage, inProgressGameState.CurrentPlayerNumber));
         }
     }
 }

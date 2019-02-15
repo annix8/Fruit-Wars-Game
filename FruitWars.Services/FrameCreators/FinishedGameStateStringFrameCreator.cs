@@ -36,7 +36,7 @@ namespace FruitWars.Services.FrameCreators
 
             stringBuilder.AppendLine(RematchMessage);
 
-            return new StringFrame(stringBuilder.ToString());
+            return new StringFrame(stringBuilder.ToString().Trim());
         }
 
         public bool ShouldCreate(GameStateBase gameState)

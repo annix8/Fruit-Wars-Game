@@ -6,6 +6,11 @@ namespace FruitWars.IO
 {
     public class ConsoleRenderer : IRenderer
     {
+        public ConsoleRenderer()
+        {
+            Console.CursorVisible = false;
+        }
+
         public void RenderFrame(IFrame frame)
         {
             Console.Clear();
