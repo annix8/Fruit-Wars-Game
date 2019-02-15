@@ -1,10 +1,9 @@
-﻿using FruitWars.Core.BoardObjectCollisionHandlers.Contracts;
+﻿using System;
+using System.Collections.Generic;
+using FruitWars.Core.BoardObjectCollisionHandlers.Contracts;
 using FruitWars.Core.Controllers;
 using FruitWars.Core.Models;
-using FruitWars.Core.Models.Fruits;
 using FruitWars.Core.Models.Warriors;
-using System;
-using System.Collections.Generic;
 
 namespace FruitWars.Core.BoardObjectCollisionHandlers.Factory
 {
