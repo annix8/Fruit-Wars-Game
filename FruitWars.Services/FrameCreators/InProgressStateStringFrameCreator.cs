@@ -3,6 +3,7 @@ using FruitWars.Core.Models;
 using FruitWars.Core.Models.GameState;
 using FruitWars.Core.Models.Warriors;
 using FruitWars.Services.Contracts;
+using System;
 using System.Linq;
 using System.Text;
 
@@ -10,6 +11,8 @@ namespace FruitWars.Services.FrameCreators
 {
     public class InProgressStateStringFrameCreator : IStringGameStateFrameCreator
     {
+        private const string PlayerMakesMoveMessage = "Player{0}, make a move please!";
+
         private readonly BoardObjectToSymbolMapper _boardObjectToSymbolMapper;
 
         public InProgressStateStringFrameCreator(BoardObjectToSymbolMapper boardObjectToSymbolMapper)
@@ -21,8 +24,20 @@ namespace FruitWars.Services.FrameCreators
         {
             InProgressGameState inProgressGameState = gameState as InProgressGameState;
             StringBuilder stringBuilder = new StringBuilder();
-            Board board = inProgressGameState.Board;
+            DrawBoard(inProgressGameState, stringBuilder);
+            DrawPlayerMoveMessage(inProgressGameState, stringBuilder);
 
+            return new StringFrame(stringBuilder.ToString());
+        }
+
+        public bool ShouldCreate(GameStateBase gameState)
+        {
+            return gameState is InProgressGameState;
+        }
+
+        private void DrawBoard(InProgressGameState inProgressGameState, StringBuilder stringBuilder)
+        {
+            Board board = inProgressGameState.Board;
             for (int row = 0; row < board.Rows; row++)
             {
                 for (int col = 0; col < board.Cols; col++)
@@ -43,17 +58,13 @@ namespace FruitWars.Services.FrameCreators
                 }
                 stringBuilder.AppendLine();
             }
-
-            string playersMessages = string.Join("\n", inProgressGameState.Players);
-            stringBuilder.AppendLine(playersMessages);
-            stringBuilder.Append($"Player{inProgressGameState.CurrentPlayerNumber}, make a move please!");
-
-            return new StringFrame(stringBuilder.ToString());
         }
 
-        public bool ShouldCreate(GameStateBase gameState)
+        private void DrawPlayerMoveMessage(InProgressGameState inProgressGameState, StringBuilder stringBuilder)
         {
-            return gameState is InProgressGameState;
+            string playersMessages = string.Join(Environment.NewLine, inProgressGameState.Players);
+            stringBuilder.AppendLine(playersMessages);
+            stringBuilder.Append(string.Join(PlayerMakesMoveMessage, inProgressGameState.CurrentPlayerNumber));
         }
     }
 }

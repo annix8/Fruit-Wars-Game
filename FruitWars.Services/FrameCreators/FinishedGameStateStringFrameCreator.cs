@@ -12,7 +12,6 @@ namespace FruitWars.Services.FrameCreators
         private const string DrawGameMessage = "Draw game.";
         private const string PlayerWinsMessage = "Player{0} wins the game.";
         private const string RematchMessage = "Do you want to start a rematch? (y/n)";
-
         private readonly BoardObjectToSymbolMapper _boardObjectToSymbolMapper;
 
         public FinishedGameStateStringFrameCreator(BoardObjectToSymbolMapper boardObjectToSymbolMapper)
