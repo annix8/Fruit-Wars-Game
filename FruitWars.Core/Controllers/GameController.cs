@@ -11,6 +11,7 @@ namespace FruitWars.Core.Controllers
 {
     public class GameController
     {
+        private const int PlayerNumberToStart = 1;
         private const int NumberOfPlayers = 2;
         private const string ChooseWarriorMessage = "Player{0}, please choose a warrior.\nInsert 1 for turtle / 2 for monkey / 3 for pigeon";
         private const string StartNewGameMessage = "Do you want to start a rematch? (y/n)";
@@ -62,7 +63,7 @@ namespace FruitWars.Core.Controllers
             _gameStateController.CreateInProgressGameState();
             _boardController.CreateNewBoard(warriorsByPlayerNumber);
             _gameStateController.AddPlayersToGameState(players);
-            _gameStateController.AssignCurrentPlayer(1);
+            _gameStateController.AssignCurrentPlayer(PlayerNumberToStart);
         }
 
         private void RunGame(List<Player> players)
