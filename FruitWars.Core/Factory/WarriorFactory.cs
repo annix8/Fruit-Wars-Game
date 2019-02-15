@@ -22,7 +22,7 @@ namespace FruitWars.Core.Factory
         {
             if (!_createWarriorFunctions.ContainsKey(warriorType))
             {
-                throw new ArgumentException($"Warrior type {warriorType} does not exist.");
+                return null;
             }
 
             return _createWarriorFunctions[warriorType].Invoke();

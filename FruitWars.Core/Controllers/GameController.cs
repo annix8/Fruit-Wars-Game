@@ -17,6 +17,7 @@ namespace FruitWars.Core.Controllers
         private const string StartNewGameMessage = "Do you want to start a rematch? (y/n)";
         private const string ConfirmAnswer = "y";
         private const string DenyAnswer = "n";
+        private const string InvalidOption = "Invalid option";
 
         private readonly BoardController _boardController;
         private readonly GameStateController _gameStateController;
@@ -60,7 +61,7 @@ namespace FruitWars.Core.Controllers
         private void CreateNewGame(List<Player> players)
         {
             _gameStateController.CreateNewGameState();
-            Dictionary<int, Warrior> warriorsByPlayerNumber = GetWarriorsForPlayers(players);
+            Dictionary<int, Warrior> warriorsByPlayerNumber = CreateWarriorsForPlayerNumbers(players);
             _gameStateController.CreateInProgressGameState();
             _boardController.CreateNewBoard(warriorsByPlayerNumber);
             _gameStateController.AddPlayersToGameState(players);
@@ -114,23 +115,35 @@ namespace FruitWars.Core.Controllers
             }
         }
 
-        private Dictionary<int, Warrior> GetWarriorsForPlayers(List<Player> players)
+        private Dictionary<int, Warrior> CreateWarriorsForPlayerNumbers(List<Player> players)
         {
             Dictionary<int, Warrior> warriorTypesByPlayerNumber = new Dictionary<int, Warrior>();
             foreach (var player in players)
             {
-                // todo handle invalid input for warrior types
                 string message = string.Format(ChooseWarriorMessage, player.Number);
                 _gameStateController.AddScreenMessageToWarriorSelectScreen(message);
                 Render();
-                int warriorType = int.Parse(_inputReceiver.ReceiveStringInput());
-                _gameStateController.AddScreenMessageToWarriorSelectScreen(warriorType.ToString());
-                Warrior warrior = _warriorFactory.Create(warriorType);
+                Warrior warrior = CreateWarriorForPlayer();
                 player.Warrior = warrior;
                 warriorTypesByPlayerNumber.Add(player.Number, warrior);
             }
 
             return warriorTypesByPlayerNumber;
+        }
+
+        private Warrior CreateWarriorForPlayer()
+        {
+            int warriorType = -1;
+            Warrior warrior = null;
+            while (warrior == null)
+            {
+                bool warriorTypeParsed = int.TryParse(_inputReceiver.ReceiveStringInput(), out warriorType);
+                warrior = _warriorFactory.Create(warriorType);
+                _gameStateController.AddScreenMessageToWarriorSelectScreen(InvalidOption);
+                Render();
+            }
+
+            return warrior;
         }
 
         private bool AskForRematch()

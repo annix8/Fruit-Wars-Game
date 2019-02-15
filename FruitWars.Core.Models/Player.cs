@@ -14,7 +14,7 @@ namespace FruitWars.Core.Models
 
         public override string ToString()
         {
-            return $"Player{Number}: {Warrior.Power} Power; {Warrior.Speed} Speed";
+            return $"Player{Number} - {Warrior.GetType().Name}: {Warrior.Power} Power; {Warrior.Speed} Speed";
         }
     }
 }
