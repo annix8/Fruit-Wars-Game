@@ -97,7 +97,6 @@ namespace FruitWars.Core.Controllers
                 int numberOfMoves = player.Warrior.Speed;
                 while (numberOfMoves > 0)
                 {
-                    // todo handle invalid input
                     Direction direction = _inputReceiver.ReceiveDirectionInput();
                     bool successfulMove =_boardController.MovePlayerWarrior(player.Number, direction);
                     if (successfulMove)
@@ -106,7 +105,7 @@ namespace FruitWars.Core.Controllers
                         {
                             break;
                         }
-                        // if input is valid lower number of moves
+
                         numberOfMoves--;
                         Render();
                     }
