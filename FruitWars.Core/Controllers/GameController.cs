@@ -16,6 +16,7 @@ namespace FruitWars.Core.Controllers
         private const string ChooseWarriorMessage = "Player{0}, please choose a warrior.\nInsert 1 for turtle / 2 for monkey / 3 for pigeon";
         private const string StartNewGameMessage = "Do you want to start a rematch? (y/n)";
         private const string ConfirmAnswer = "y";
+        private const string DenyAnswer = "n";
 
         private readonly BoardController _boardController;
         private readonly GameStateController _gameStateController;
@@ -98,7 +99,7 @@ namespace FruitWars.Core.Controllers
                 while (numberOfMoves > 0)
                 {
                     Direction direction = _inputReceiver.ReceiveDirectionInput();
-                    bool successfulMove =_boardController.MovePlayerWarrior(player.Number, direction);
+                    bool successfulMove = _boardController.MovePlayerWarrior(player.Number, direction);
                     if (successfulMove)
                     {
                         if (_gameStateController.IsGameFinished())
@@ -134,11 +135,15 @@ namespace FruitWars.Core.Controllers
 
         private bool AskForRematch()
         {
-            // todo handle different inputs
             Render();
-            string answer = _inputReceiver.ReceiveStringInput();
+            string answer = _inputReceiver.ReceiveStringInput().ToLower();
+            while(answer != ConfirmAnswer && answer != DenyAnswer)
+            {
+                Render();
+                answer = _inputReceiver.ReceiveStringInput().ToLower();
+            }
 
-            return answer.ToLower() == ConfirmAnswer;
+            return answer == ConfirmAnswer;
         }
 
         private void Render()
