@@ -14,6 +14,7 @@ namespace FruitWars.Core.Controllers
         private const int NumberOfPlayers = 2;
         private const string ChooseWarriorMessage = "Player{0}, please choose a warrior.\nInsert 1 for turtle / 2 for monkey / 3 for pigeon";
         private const string StartNewGameMessage = "Do you want to start a rematch? (y/n)";
+        private const string ConfirmAnswer = "y";
 
         private readonly BoardController _boardController;
         private readonly GameStateController _gameStateController;
@@ -137,7 +138,7 @@ namespace FruitWars.Core.Controllers
             Render();
             string answer = _inputReceiver.ReceiveStringInput();
 
-            return answer.ToLower() == "y";
+            return answer.ToLower() == ConfirmAnswer;
         }
 
         private void Render()
