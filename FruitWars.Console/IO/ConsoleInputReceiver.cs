@@ -9,8 +9,7 @@ namespace FruitWars.IO
         public Direction ReceiveDirectionInput()
         {
             ConsoleKeyInfo consoleKey = Console.ReadKey();
-
-            // todo handle different input from arrows
+            
             switch (consoleKey.Key)
             {
                 case ConsoleKey.UpArrow:
@@ -22,7 +21,7 @@ namespace FruitWars.IO
                 case ConsoleKey.RightArrow:
                     return Direction.Right;
                 default:
-                    throw new ArgumentException("Press the arrow keys.");
+                    return Direction.None;
             }
         }
 

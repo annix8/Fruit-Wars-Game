@@ -134,6 +134,8 @@ namespace FruitWars.Core.Controllers
                     return (currentRow, currentCol - 1);
                 case Direction.Right:
                     return (currentRow, currentCol + 1);
+                case Direction.None:
+                    return (-1, -1);
                 default:
                     throw new ArgumentException("No such direction");
             }
