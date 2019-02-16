@@ -15,6 +15,7 @@ namespace FruitWars.Core.Controllers
         private readonly GameStateController _gameStateController;
         private readonly FruitFactory _fruitFactory;
         private readonly AbstractObjectCollisionHandlerFactory _objectCollisionHandlerFactory;
+        private readonly Random _random;
 
         public BoardController(GameStateController gameStateController,
             FruitFactory fruitFactory,
@@ -23,14 +24,16 @@ namespace FruitWars.Core.Controllers
             _gameStateController = gameStateController;
             _fruitFactory = fruitFactory;
             _objectCollisionHandlerFactory = objectCollisionHandlerFactory;
+
+            _random = new Random();
         }
 
         public Board Board { get; private set; }
 
         public void CreateNewBoard(Dictionary<int, Warrior> warriorTypesByPlayerNumber)
         {
-            InitializeBoardWithNullBoardObjects();
-            AddWarriorsAndFruitsToBoard(warriorTypesByPlayerNumber);
+            CreateBoardWithNullBoardObjects();
+            PlaceWarriorsAndFruitsOnBoard(warriorTypesByPlayerNumber);
             _gameStateController.AddBoardToGameState(Board);
         }
 
@@ -61,7 +64,7 @@ namespace FruitWars.Core.Controllers
             return true;
         }
 
-        private void InitializeBoardWithNullBoardObjects()
+        private void CreateBoardWithNullBoardObjects()
         {
             Board = new Board();
             for (int row = 0; row < Board.Rows; row++)
@@ -73,13 +76,17 @@ namespace FruitWars.Core.Controllers
             }
         }
 
-        private void AddWarriorsAndFruitsToBoard(Dictionary<int, Warrior> warriorsByPlayerNumber)
+        private void PlaceWarriorsAndFruitsOnBoard(Dictionary<int, Warrior> warriorsByPlayerNumber)
         {
-            Random random = new Random();
-            int randomRow = random.Next(0, Board.Rows);
-            int randomCol = random.Next(0, Board.Cols);
             List<(int, int)> takenPositions = new List<(int, int)>();
+            PlaceWarriors(warriorsByPlayerNumber, takenPositions);
+            PlaceFruits(takenPositions);
+        }
 
+        private void PlaceWarriors(Dictionary<int, Warrior> warriorsByPlayerNumber, List<(int, int)> takenPositions)
+        {
+            int randomRow = _random.Next(0, Board.Rows);
+            int randomCol = _random.Next(0, Board.Cols);
             foreach (var kvp in warriorsByPlayerNumber)
             {
                 int playerNumber = kvp.Key;
@@ -87,8 +94,8 @@ namespace FruitWars.Core.Controllers
 
                 while (true)
                 {
-                    randomRow = random.Next(0, Board.Rows);
-                    randomCol = random.Next(0, Board.Cols);
+                    randomRow = _random.Next(0, Board.Rows);
+                    randomCol = _random.Next(0, Board.Cols);
 
                     // todo at least 3 positions away logic!
                     if (!takenPositions.Contains((randomRow, randomCol)))
@@ -101,14 +108,19 @@ namespace FruitWars.Core.Controllers
                 Board[randomRow, randomCol] = warrior;
                 takenPositions.Add((randomRow, randomCol));
             }
+        }
 
+        private void PlaceFruits(List<(int, int)> takenPositions)
+        {
+            int randomRow = _random.Next(0, Board.Rows);
+            int randomCol = _random.Next(0, Board.Cols);
             List<Fruit> fruits = _fruitFactory.Create();
             foreach (var fruit in fruits)
             {
                 while (true)
                 {
-                    randomRow = random.Next(0, Board.Rows);
-                    randomCol = random.Next(0, Board.Cols);
+                    randomRow = _random.Next(0, Board.Rows);
+                    randomCol = _random.Next(0, Board.Cols);
 
                     // todo at least 3 positions away logic!
                     if (!takenPositions.Contains((randomRow, randomCol)))

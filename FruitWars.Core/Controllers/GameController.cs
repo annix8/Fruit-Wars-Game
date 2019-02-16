@@ -139,7 +139,15 @@ namespace FruitWars.Core.Controllers
             {
                 bool warriorTypeParsed = int.TryParse(_inputReceiver.ReceiveStringInput(), out warriorType);
                 warrior = _warriorFactory.Create(warriorType);
-                _gameStateController.AddScreenMessageToWarriorSelectScreen(InvalidOption);
+                if (!warriorTypeParsed || warrior == null)
+                {
+                    _gameStateController.AddScreenMessageToWarriorSelectScreen(InvalidOption);
+                }
+                else
+                {
+                    _gameStateController.AddScreenMessageToWarriorSelectScreen(warriorType.ToString());
+                }
+
                 Render();
             }
 
@@ -150,7 +158,7 @@ namespace FruitWars.Core.Controllers
         {
             Render();
             string answer = _inputReceiver.ReceiveStringInput().ToLower();
-            while(answer != ConfirmAnswer && answer != DenyAnswer)
+            while (answer != ConfirmAnswer && answer != DenyAnswer)
             {
                 Render();
                 answer = _inputReceiver.ReceiveStringInput().ToLower();
