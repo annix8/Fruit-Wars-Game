@@ -18,6 +18,7 @@ namespace FruitWars.Core.Controllers
         private const string ConfirmAnswer = "y";
         private const string DenyAnswer = "n";
         private const string InvalidOption = "Invalid option";
+        private const string SelectedWarriorMessage = "Warrior {0} was selected";
 
         private readonly BoardController _boardController;
         private readonly GameStateController _gameStateController;
@@ -143,13 +144,11 @@ namespace FruitWars.Core.Controllers
                 {
                     _gameStateController.AddScreenMessageToWarriorSelectScreen(InvalidOption);
                 }
-                else
-                {
-                    _gameStateController.AddScreenMessageToWarriorSelectScreen(warriorType.ToString());
-                }
 
                 Render();
             }
+
+            _gameStateController.AddScreenMessageToWarriorSelectScreen(string.Format(SelectedWarriorMessage, warrior.GetType().Name));
 
             return warrior;
         }
