@@ -31,10 +31,11 @@ namespace FruitWars.Core.Controllers
 
         public Board Board { get; private set; }
 
-        public void CreateNewBoard(Dictionary<int, Warrior> warriorTypesByPlayerNumber)
+        public void CreateNewBoard(Dictionary<int, Warrior> warriorsByPlayerNumber)
         {
             CreateBoardWithNullBoardObjects();
-            PlaceWarriorsAndFruitsOnBoard(warriorTypesByPlayerNumber);
+            PlaceWarriors(warriorsByPlayerNumber);
+            PlaceFruits();
             _gameStateController.AddBoardToGameState(Board);
         }
 
@@ -75,12 +76,6 @@ namespace FruitWars.Core.Controllers
                     Board[row, col] = new NullBoardObject();
                 }
             }
-        }
-
-        private void PlaceWarriorsAndFruitsOnBoard(Dictionary<int, Warrior> warriorsByPlayerNumber)
-        {
-            PlaceWarriors(warriorsByPlayerNumber);
-            PlaceFruits();
         }
 
         private void PlaceWarriors(Dictionary<int, Warrior> warriorsByPlayerNumber)
