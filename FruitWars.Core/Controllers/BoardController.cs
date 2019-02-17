@@ -13,6 +13,9 @@ namespace FruitWars.Core.Controllers
 {
     public class BoardController
     {
+        private const int WarriorsOffset = 2;
+        private const int FruitsOffset = 1;
+
         private readonly GameStateController _gameStateController;
         private readonly FruitFactory _fruitFactory;
         private readonly AbstractObjectCollisionHandlerFactory _objectCollisionHandlerFactory;
@@ -80,32 +83,30 @@ namespace FruitWars.Core.Controllers
 
         private void PlaceWarriors(Dictionary<int, Warrior> warriorsByPlayerNumber)
         {
-            HashSet<(int, int)> validCells = GetValidCells();
-            int warriorOffset = 2;
+            HashSet<(int, int)> validCells = GetCellsWithNullBoardObjects();
             foreach (var kvp in warriorsByPlayerNumber)
             {
                 int playerNumber = kvp.Key;
                 Warrior warrior = kvp.Value;
 
-                (int validRow, int validCol) = GetValidRowCol(validCells, warriorOffset);
-                _gameStateController.AssignWarriorPositionToPlayer(playerNumber, validRow, validCol);
-                Board[validRow, validCol] = warrior;
+                (int row, int col) = GetPlaceableRowCol(validCells, WarriorsOffset);
+                _gameStateController.AssignWarriorPositionToPlayer(playerNumber, row, col);
+                Board[row, col] = warrior;
             }
         }
 
         private void PlaceFruits()
         {
-            HashSet<(int, int)> validCells = GetValidCells();
-            int fruitOffset = 1;
+            HashSet<(int, int)> validCells = GetCellsWithNullBoardObjects();
             List<Fruit> fruits = _fruitFactory.Create();
             foreach (var fruit in fruits)
             {
-                (int validRow, int validCol) = GetValidRowCol(validCells, fruitOffset);
-                Board[validRow, validCol] = fruit;
+                (int row, int col) = GetPlaceableRowCol(validCells, FruitsOffset);
+                Board[row, col] = fruit;
             }
         }
 
-        private HashSet<(int, int)> GetValidCells()
+        private HashSet<(int, int)> GetCellsWithNullBoardObjects()
         {
             HashSet<(int, int)> validCells = new HashSet<(int, int)>();
             for (int row = 0; row < Board.Rows; row++)
@@ -122,23 +123,23 @@ namespace FruitWars.Core.Controllers
             return validCells;
         }
 
-        private (int, int) GetValidRowCol(HashSet<(int, int)> validCells, int cellsOffset)
+        private (int, int) GetPlaceableRowCol(HashSet<(int, int)> validCells, int cellsOffset)
         {
-            (int validRow, int validCol) = validCells.ElementAt(_random.Next(validCells.Count));
-            (int minRow, int maxRow) = GetMinAndMaxDimension(validRow, Board.Rows - 1, cellsOffset);
+            (int placeableRow, int placeableCol) = validCells.ElementAt(_random.Next(validCells.Count));
+            (int minRow, int maxRow) = GetMinAndMaxDimension(placeableRow, Board.Rows - 1, cellsOffset);
             int colOffset = 0;
             int row = minRow;
-            int minCol = validRow;
-            int maxCol = validCol;
+            int minCol = placeableRow;
+            int maxCol = placeableCol;
             while (row <= maxRow)
             {
-                (minCol, maxCol) = GetMinAndMaxDimension(validCol, Board.Cols - 1, colOffset);
+                (minCol, maxCol) = GetMinAndMaxDimension(placeableCol, Board.Cols - 1, colOffset);
                 for (int col = minCol; col <= maxCol; col++)
                 {
                     validCells.Remove((row, col));
                 }
 
-                if (row < validRow)
+                if (row < placeableRow)
                 {
                     colOffset++;
                 }
@@ -150,7 +151,7 @@ namespace FruitWars.Core.Controllers
                 row++;
             }
 
-            return (validRow, validCol);
+            return (placeableRow, placeableCol);
         }
 
         private (int, int) GetMinAndMaxDimension(int dimension, int maxAllowed,  int offset)
