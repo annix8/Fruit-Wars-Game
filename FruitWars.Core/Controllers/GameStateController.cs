@@ -19,19 +19,9 @@ namespace FruitWars.Core.Controllers
             GameState = new InProgressGameState();
         }
 
-        public void EndGameWithWinner(int winnerPlayerNumber)
+        public bool IsGameFinished()
         {
-            InProgressGameState gameState = GameState as InProgressGameState;
-            Player winnerPlayer = gameState.Players.First(x => x.Number == winnerPlayerNumber);
-            Board board = gameState.Board;
-            GameState = new FinishedGameState(winnerPlayer, board, false);
-        }
-
-        public void EndGameWithDraw()
-        {
-            InProgressGameState gameState = GameState as InProgressGameState;
-            Board board = gameState.Board;
-            GameState = new FinishedGameState(null, board, true);
+            return GameState is FinishedGameState;
         }
 
         public void AddScreenMessageToWarriorSelectScreen(string message)
@@ -78,9 +68,19 @@ namespace FruitWars.Core.Controllers
                 .First(x => x.Value.Item1 == warriorRow && x.Value.Item2 == warriorCol).Key;
         }
 
-        public bool IsGameFinished()
+        public void EndGameWithWinner(int winnerPlayerNumber)
         {
-            return GameState is FinishedGameState;
+            InProgressGameState gameState = GameState as InProgressGameState;
+            Player winnerPlayer = gameState.Players.First(x => x.Number == winnerPlayerNumber);
+            Board board = gameState.Board;
+            GameState = new FinishedGameState(winnerPlayer, board, false);
+        }
+
+        public void EndGameWithDraw()
+        {
+            InProgressGameState gameState = GameState as InProgressGameState;
+            Board board = gameState.Board;
+            GameState = new FinishedGameState(null, board, true);
         }
     }
 }
