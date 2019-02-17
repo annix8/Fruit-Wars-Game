@@ -79,35 +79,34 @@ namespace FruitWars.Core.Controllers
 
         private void PlaceWarriorsAndFruitsOnBoard(Dictionary<int, Warrior> warriorsByPlayerNumber)
         {
-            List<(int, int)> takenPositions = new List<(int, int)>();
-            ////PlaceWarriors(warriorsByPlayerNumber, takenPositions);
+            PlaceWarriors(warriorsByPlayerNumber);
             PlaceFruits();
         }
 
-        private void PlaceWarriors(Dictionary<int, Warrior> warriorsByPlayerNumber, List<(int, int)> takenPositions)
+        private void PlaceWarriors(Dictionary<int, Warrior> warriorsByPlayerNumber)
         {
-            int randomRow = _random.Next(0, Board.Rows);
-            int randomCol = _random.Next(0, Board.Cols);
+            HashSet<(int, int)> validCells = GetValidCells();
+            int warriorOffset = 2;
             foreach (var kvp in warriorsByPlayerNumber)
             {
                 int playerNumber = kvp.Key;
                 Warrior warrior = kvp.Value;
 
-                while (true)
-                {
-                    randomRow = _random.Next(0, Board.Rows);
-                    randomCol = _random.Next(0, Board.Cols);
+                (int validRow, int validCol) = GetValidRowCol(validCells, warriorOffset);
+                _gameStateController.AssignWarriorPositionToPlayer(playerNumber, validRow, validCol);
+                Board[validRow, validCol] = warrior;
+            }
+        }
 
-                    // todo at least 3 positions away logic!
-                    if (!takenPositions.Contains((randomRow, randomCol)))
-                    {
-                        break;
-                    }
-                }
-
-                _gameStateController.AssignWarriorPositionToPlayer(playerNumber, randomRow, randomCol);
-                Board[randomRow, randomCol] = warrior;
-                takenPositions.Add((randomRow, randomCol));
+        private void PlaceFruits()
+        {
+            HashSet<(int, int)> validCells = GetValidCells();
+            int fruitOffset = 1;
+            List<Fruit> fruits = _fruitFactory.Create();
+            foreach (var fruit in fruits)
+            {
+                (int validRow, int validCol) = GetValidRowCol(validCells, fruitOffset);
+                Board[validRow, validCol] = fruit;
             }
         }
 
@@ -118,7 +117,7 @@ namespace FruitWars.Core.Controllers
             {
                 for (int col = 0; col < Board.Cols; col++)
                 {
-                    if(Board[row, col] is NullBoardObject)
+                    if (Board[row, col] is NullBoardObject)
                     {
                         validCells.Add((row, col));
                     }
@@ -128,41 +127,35 @@ namespace FruitWars.Core.Controllers
             return validCells;
         }
 
-        private void PlaceFruits()
+        private (int, int) GetValidRowCol(HashSet<(int, int)> validCells, int cellsOffset)
         {
-            HashSet<(int, int)> validCells = GetValidCells();
-            int fruitOffset = 2;
-            List<Fruit> fruits = _fruitFactory.Create();
-            foreach (var fruit in fruits)
+            (int validRow, int validCol) = validCells.ElementAt(_random.Next(validCells.Count));
+            (int minRow, int maxRow) = GetMinAndMaxDimension(validRow, Board.Rows - 1, cellsOffset);
+            int colOffset = 0;
+            int row = minRow;
+            int minCol = validRow;
+            int maxCol = validCol;
+            while (row <= maxRow)
             {
-                (int validRow, int validCol) = validCells.ElementAt(_random.Next(validCells.Count));
-                (int minRow, int maxRow) = GetMinAndMaxDimension(validRow, Board.Rows - 1, fruitOffset);
-                int colOffset = 0;
-                int row = minRow;
-                int minCol = validRow;
-                int maxCol = validCol;
-                while (row <= maxRow)
+                (minCol, maxCol) = GetMinAndMaxDimension(validCol, Board.Cols - 1, colOffset);
+                for (int col = minCol; col <= maxCol; col++)
                 {
-                    (minCol, maxCol) = GetMinAndMaxDimension(validCol, Board.Cols - 1, colOffset);
-                    for (int col = minCol; col <= maxCol; col++)
-                    {
-                        validCells.Remove((row, col));
-                    }
-
-                    if (row < validRow)
-                    {
-                        colOffset++;
-                    }
-                    else
-                    {
-                        colOffset--;
-                    }
-
-                    row++;
+                    validCells.Remove((row, col));
                 }
 
-                Board[validRow, validCol] = fruit;
+                if (row < validRow)
+                {
+                    colOffset++;
+                }
+                else
+                {
+                    colOffset--;
+                }
+
+                row++;
             }
+
+            return (validRow, validCol);
         }
 
         private (int, int) GetMinAndMaxDimension(int dimension, int maxAllowed,  int offset)
