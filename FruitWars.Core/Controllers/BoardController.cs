@@ -13,8 +13,8 @@ namespace FruitWars.Core.Controllers
 {
     public class BoardController
     {
-        private const int WarriorsOffset = 2;
-        private const int FruitsOffset = 1;
+        private const int WarriorsOffset = 3;
+        private const int FruitsOffset = 2;
 
         private readonly GameStateController _gameStateController;
         private readonly FruitFactory _fruitFactory;
@@ -126,17 +126,20 @@ namespace FruitWars.Core.Controllers
         private (int, int) GetPlaceableRowCol(HashSet<(int, int)> validCells, int cellsOffset)
         {
             (int placeableRow, int placeableCol) = validCells.ElementAt(_random.Next(validCells.Count));
-            (int minRow, int maxRow) = GetMinAndMaxDimension(placeableRow, Board.Rows - 1, cellsOffset);
+            (int minRow, int maxRow) = ((placeableRow - cellsOffset), (placeableRow + cellsOffset));
             int colOffset = 0;
             int row = minRow;
             int minCol = placeableRow;
             int maxCol = placeableCol;
             while (row <= maxRow)
             {
-                (minCol, maxCol) = GetMinAndMaxDimension(placeableCol, Board.Cols - 1, colOffset);
+                (minCol, maxCol) = ((placeableCol - colOffset), (placeableCol + colOffset));
                 for (int col = minCol; col <= maxCol; col++)
                 {
-                    validCells.Remove((row, col));
+                    if (validCells.Contains((row, col)))
+                    {
+                        validCells.Remove((row, col));
+                    }
                 }
 
                 if (row < placeableRow)
@@ -152,14 +155,6 @@ namespace FruitWars.Core.Controllers
             }
 
             return (placeableRow, placeableCol);
-        }
-
-        private (int, int) GetMinAndMaxDimension(int dimension, int maxAllowed,  int offset)
-        {
-            int minDimension = Math.Max(dimension - offset, 0);
-            int maxDimension = Math.Min(dimension + offset, maxAllowed);
-
-            return (minDimension, maxDimension);
         }
 
         private (int, int) GetDesiredPosition(int currentRow, int currentCol, Direction direction)
